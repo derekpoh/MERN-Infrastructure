@@ -1,10 +1,17 @@
-import { useState } from "react";
+import LoansCarousel from "../Loans/LoansCarousel"
+import RecommendedCarousel from "../Recommended/RecommendedCarousel"
+import CategoriesCarousel from "../Categories/CategoriesCarousel"
+import FeaturedCarousel from "../Featured/FeaturedCarousel"
 
-export default function HomePage({user}) {
+const HomePage = ({user}) => {
 
-    return (
+    return(
         <>
-            <h1>Welcome to NLB Main Page</h1>
+        {user ? <LoansCarousel /> : ""} <br/>
+        {user ? <RecommendedCarousel /> : <FeaturedCarousel />} <br/>
+        <CategoriesCarousel />
         </>
-    );
+    )
 }
+
+export default HomePage
