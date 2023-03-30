@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,9 +12,10 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import * as userService from "../../utilities/users-service";
+import Hidden from "@mui/material/Hidden";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -25,7 +25,7 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
-  marginLeft: 0,
+  marginLeft: theme.spacing(1),
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
@@ -57,7 +57,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar() {
+export default function NavBar({user, setUser}) {
+  const welcomeMessage = user === null ? "" : `Hi, ${user.name}!`;
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -81,6 +83,29 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const [loginMenuAnchorEl, setLoginMenuAnchorEl] = React.useState(null);
+  const isLoginMenuOpen = Boolean(loginMenuAnchorEl);
+
+  const handleLoginMenuOpen = (event) => {
+    setLoginMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleLoginMenuClose = (callback) => {
+    setLoginMenuAnchorEl(null);
+    if (callback) {
+      callback();
+    }
+  };
+  
+
+  const handleLogOut = async () => {
+    handleMenuClose();
+    userService.logOut();
+    setUser(null);
+    navigate("/");
+  };
+  
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -98,10 +123,41 @@ export default function NavBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
   );
+
+  const loginMenuId = "login-menu";
+  const renderLoginMenu = (
+    <Menu
+      anchorEl={loginMenuAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={loginMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isLoginMenuOpen}
+      onClose={() => handleLoginMenuClose()}
+    >
+      <MenuItem
+        onClick={() => handleLoginMenuClose(() => navigate("/users/login"))}
+      >
+        Login
+      </MenuItem>
+      <MenuItem
+        onClick={() => handleLoginMenuClose(() => navigate("/users/register"))}
+      >
+        Register
+      </MenuItem>
+    </Menu>
+  );
+  
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -120,26 +176,19 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
+      { user ? ([
       <MenuItem>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="your favourites"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
+          <Badge color="error">
+            <FavoriteBorderIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+        <p>Your Favourites</p>
+      </MenuItem>,
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -152,9 +201,23 @@ export default function NavBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-    </Menu>
-  );
 
+
+      ]) : ([
+      <MenuItem
+        onClick={() => handleLoginMenuClose(() => navigate("/users/login"))}
+      >
+        Login
+      </MenuItem>,
+      <MenuItem
+        onClick={() => handleLoginMenuClose(() => navigate("/users/register"))}
+      >
+        Register
+      </MenuItem>
+
+      ])}
+        </Menu>
+  );
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -168,7 +231,9 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <img src="/favicon.png" alt="NLB Logo" height="45" style={{backgroundColor: "#fff", borderRadius: "50%", padding: "2px"}} />
+          <Link to="/">
+            <img src="/favicon.png" alt="NLB Logo" height="40" style={{backgroundColor: "#fff", borderRadius: "50%", padding: "1px"}} />
+          </Link>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -179,32 +244,44 @@ export default function NavBar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
+          <Hidden smDown>
+            {welcomeMessage}
+          </Hidden>  
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {user ? (
+            <>
+              <IconButton size="large" color="inherit">
+                <Badge color="error">
+                  <FavoriteBorderIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </>
+            ) : (
+              <>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-controls={loginMenuId}
+                aria-haspopup="true"
+                onClick={handleLoginMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              {renderLoginMenu}
+            </>
+          )}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
