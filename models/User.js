@@ -15,15 +15,25 @@ const userSchema = new Schema({
         unique: true,
         trim: true,
         lowercase: true,
-        required: true
+        required: true,
+        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     },
     password: {
         type: String,
         trim: true,
         minLength: 3,
-        maxLength: 30,
+        maxLength: 80,
         required: true
-    }
+    },
+    favouriteBooks: [{
+        type: Schema.Types.ObjectId,
+        ref: "Collection",
+    }],
+    preferredGenres: [{
+        type: String,
+        enum: ["Romance", "Mystery", "Thriller", "Science", "Fantasy", "Academic", "Reference", "Fitness", "Health", "Food", "Cooking", "Art", "Finance", "Self-Help"],
+      }],
+      
 }, {
     timestamps: true
 });
