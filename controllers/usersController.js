@@ -40,8 +40,19 @@ const login = async (req, res) => {
     };
 };
 
+const showPrefs = async (req, res) => {
+
+}
+
+
+const changePrefs = async (req, res) => {
+
+}
+
 module.exports = {
     create,
-    login
+    login,
+    showPrefs,
+    changePrefs
 };
   

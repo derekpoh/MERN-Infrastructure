@@ -16,6 +16,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import * as userService from "../../utilities/users-service";
 import Hidden from "@mui/material/Hidden";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar({user, setUser}) {
-  const welcomeMessage = user === null ? "" : `Hi, ${user.name}!`;
+  const welcomeMessage = user === null ? "" : `Hello, ${user.name.toUpperCase()}!`;
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -123,7 +124,7 @@ export default function NavBar({user, setUser}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+      <MenuItem onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>My Account</MenuItem>
       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
   );
@@ -189,7 +190,7 @@ export default function NavBar({user, setUser}) {
         </IconButton>
         <p>Your Favourites</p>
       </MenuItem>,
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -199,9 +200,18 @@ export default function NavBar({user, setUser}) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>My Account</p>
+      </MenuItem>,
+      <MenuItem onClick={handleLogOut}>
+        <IconButton
+          size="large"
+          aria-label="logout"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p>Logout</p>
       </MenuItem>
-
 
       ]) : ([
       <MenuItem
