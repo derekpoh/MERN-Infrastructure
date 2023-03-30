@@ -15,16 +15,16 @@ const loanHistorySchema = new Schema({
     reminderDate: {
         type: Date
     },
+});
+  
+const bookSchema = new Schema({
+    loanHistory: [loanHistorySchema],
     loanStatus: {
         type: String,
         enum: ["Borrowed", "Available"],
         default: "Available",
         required: true
     },
-});
-
-const bookSchema = new Schema({
-    loanHistory: [loanHistorySchema]
 }, {
     timestamps: true,
 });
