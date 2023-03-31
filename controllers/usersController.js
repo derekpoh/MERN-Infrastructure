@@ -40,19 +40,24 @@ const login = async (req, res) => {
     };
 };
 
-const showPrefs = async (req, res) => {
-
-}
-
 
 const changePrefs = async (req, res) => {
-
+    const {userId, preferredGenres} = req.body;
+    try {
+          const updatedPrefs = await User.findByIdAndUpdate(
+          userId,
+          { $set: {preferredGenres}},
+          { new: true }
+        );
+        res.status(200).send(updatedPrefs);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
 }
 
 module.exports = {
     create,
     login,
-    showPrefs,
     changePrefs
 };
   
