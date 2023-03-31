@@ -70,6 +70,7 @@ export default function NavBar({user, setUser}) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [searchInput, setSearchInput] = React.useState("");
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -105,14 +106,21 @@ export default function NavBar({user, setUser}) {
     }
   };
   
-
   const handleLogOut = async () => {
     handleMenuClose();
     userService.logOut();
     setUser(null);
     navigate("/");
   };
+
+  const handleSearchInput = async (event) => {
+    setSearchInput(event.target.value);
+  };
   
+  const handleSearchSubmit = async (event) => {
+    event.preventDefault();
+    navigate(`/search?q=${encodeURIComponent(searchInput)}`);
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -259,10 +267,14 @@ export default function NavBar({user, setUser}) {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
+            <form onSubmit={handleSearchSubmit}>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearchInput}
+              value={searchInput}
             />
+            </form>
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Hidden smDown>
