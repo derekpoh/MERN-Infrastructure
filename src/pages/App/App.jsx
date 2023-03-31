@@ -12,8 +12,6 @@ import GenresPage from "../Genres/GenresPage"
 import FavouritesPage from "../Favourites/FavouritesPage"
 import HistoryPage from "../History/HistoryPage"
 import BookDetails from "../BookDetails/BookDetails";
-import BorrowBook from "../BorrowBook/BorrowBook";
-import ReturnBook from "../ReturnBook/ReturnBook"
 import UserAccountPage from "../UserAccount/UserAccountPage";
 import Preferences from "../Preferences/Preferences";
 import Search from "../Search/Search";
@@ -38,7 +36,7 @@ export default function App() {
         <Route path="/books/genres" element={<GenresPage />} />
         <Route path="/books/recommended" element={<RecommendedPage />} />
         <Route path="/books/:id" element={<BookDetails />} />
-        <Route path="/books/search" element={<Search />} />
+        <Route path="/search" element={<Search />} />
         {/* <Route path="/books/:id/borrow" element={<BorrowBook />} />
         <Route path="/books/:id/return" element={<ReturnBook />} /> */}
       </Routes>
