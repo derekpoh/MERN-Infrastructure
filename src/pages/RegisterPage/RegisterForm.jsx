@@ -20,7 +20,7 @@ export default function SignUpForm({setUser}) {
       try {
         await signUp(state);
         setUser(getUser());
-        navigate("/");
+        navigate("/users/account/preferences");
       } catch (error) {
         setError(error.message);
       }
