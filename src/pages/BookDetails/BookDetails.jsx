@@ -1,9 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-const BookDetails = ({id}) => {
+const BookDetails = () => {
+
+  const { id } = useParams();
+  const [book, setBook] = useState({});
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      const response = await fetch(`/api/books/${id}`);
+      const book = await response.json();
+      setBook(book);
+    };
+    fetchBook();
+  }, [id]);
+
     return (
         <>
-        <h1>BookDetails</h1> <br/>
+        {book.title}
+        {/* <h1>BookDetails</h1> <br/>
         <h2>(Insert Picture)</h2>
         <h2>Book Name</h2>
         <h3>Author:</h3>
@@ -13,9 +28,9 @@ const BookDetails = ({id}) => {
         </Link>
         <Link to={`/books/${id}/return`}>
         <button>Return</button>
-        </Link>
+        </Link> */}
         </>
     )
 }
 
-export default BookDetails
+export default BookDetails;

@@ -21,7 +21,6 @@ const collectionSchema = new Schema({
     category: {
         type: String,
         enum: ["Fiction", "Non-Fiction"],
-        unique: true,
         required: true
     },
     genre: [{
@@ -32,7 +31,6 @@ const collectionSchema = new Schema({
     language: {
         type: String, 
         enum: ["Chinese", "English", "Malay", "Tamil"], 
-        unique: true, 
         required: true
     },
     isbn: { 
@@ -47,7 +45,6 @@ const collectionSchema = new Schema({
     },
     publisher: { 
         type: String, 
-        unique: true, 
         required: true
     },
     author: { 
