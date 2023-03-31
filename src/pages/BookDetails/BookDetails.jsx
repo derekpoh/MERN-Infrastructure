@@ -17,7 +17,15 @@ const BookDetails = () => {
 
     return (
         <>
-        {book.title}
+        <p/>
+        {book.title}<p/>
+        <img src={book.image} alt="Book cover image" /><p/>
+        {book.description} <p/>
+        {book.category} <p/>
+        {book.genre}, {book.language}, {book.isbn} <p/>
+        {book.publishDate} by {book.publisher}<p/>
+    
+      <p/>
         {/* <h1>BookDetails</h1> <br/>
         <h2>(Insert Picture)</h2>
         <h2>Book Name</h2>
