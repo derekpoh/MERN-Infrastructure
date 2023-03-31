@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 const UserAccountPage = ({id}) => {
     return (
         <>
+        <Link to={"preferences"}>
+        <button>Preferences</button>
+        </Link>
         <Link to={`/pages/${id}/Loans`}>
         <button>Loans</button>
         </Link>
