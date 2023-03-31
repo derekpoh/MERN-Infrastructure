@@ -22,7 +22,11 @@ export default function SignUpForm({setUser}) {
         setUser(getUser());
         navigate("/users/account/preferences");
       } catch (error) {
-        setError(error.message);
+        if (error.message.includes("email")) {
+          setError("This email already has an account");
+        } else {
+          setError(error.message);
+        }
       }
     };
   
@@ -53,6 +57,7 @@ export default function SignUpForm({setUser}) {
                 value={state.name}
                 onChange={handleChange}
                 required
+                inputProps={{ maxLength: 100 }}
               />
               <TextField
                 label="Email"
@@ -73,6 +78,7 @@ export default function SignUpForm({setUser}) {
                 value={state.password}
                 onChange={handleChange}
                 required
+                inputProps= {{ minLength: 3, maxLength: 30 }}
               />
               <TextField
                 label="Re-type Password"
@@ -83,6 +89,7 @@ export default function SignUpForm({setUser}) {
                 value={state.confirm}
                 onChange={handleChange}
                 required
+                inputProps= {{ minLength: 3, maxLength: 30 }}
               />
               <Button
                 type="submit"
@@ -94,6 +101,14 @@ export default function SignUpForm({setUser}) {
               >
                 Sign Up
               </Button>
+            <Typography
+              variant="body2"
+              color="error"
+              align="center"
+              sx={{ marginTop: 3 }}
+            >
+              {error}
+            </Typography>
             </form>
             <Grid container justifyContent="center" sx={{ marginTop: 5 }}>
               <Grid item>

@@ -17,6 +17,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import * as userService from "../../utilities/users-service";
 import Hidden from "@mui/material/Hidden";
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Typography } from "@mui/material";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,6 +57,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       width: '20ch',
     },
   },
+}));
+
+const WelcomeText = styled(Typography)(({ theme}) => ({
+  color: "inherit",
+  marginLeft: theme.spacing(5),
+  margingRight: theme.spacing(5)
 }));
 
 export default function NavBar({user, setUser}) {
@@ -147,11 +154,13 @@ export default function NavBar({user, setUser}) {
       onClose={() => handleLoginMenuClose()}
     >
       <MenuItem
+        key="login"
         onClick={() => handleLoginMenuClose(() => navigate("/users/login"))}
       >
         Login
       </MenuItem>
       <MenuItem
+        key="register"
         onClick={() => handleLoginMenuClose(() => navigate("/users/register"))}
       >
         Register
@@ -178,7 +187,7 @@ export default function NavBar({user, setUser}) {
       onClose={handleMobileMenuClose}
     >
       { user ? ([
-      <MenuItem>
+      <MenuItem key="your favourites">
         <IconButton
           size="large"
           aria-label="your favourites"
@@ -190,7 +199,7 @@ export default function NavBar({user, setUser}) {
         </IconButton>
         <p>Your Favourites</p>
       </MenuItem>,
-      <MenuItem onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
+      <MenuItem key="my-account" onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -202,7 +211,7 @@ export default function NavBar({user, setUser}) {
         </IconButton>
         <p>My Account</p>
       </MenuItem>,
-      <MenuItem onClick={handleLogOut}>
+      <MenuItem key="logout" onClick={handleLogOut}>
         <IconButton
           size="large"
           aria-label="logout"
@@ -214,12 +223,14 @@ export default function NavBar({user, setUser}) {
       </MenuItem>
 
       ]) : ([
-      <MenuItem
+      <MenuItem 
+        key="login"
         onClick={() => handleLoginMenuClose(() => navigate("/users/login"))}
       >
         Login
       </MenuItem>,
       <MenuItem
+        key="register"
         onClick={() => handleLoginMenuClose(() => navigate("/users/register"))}
       >
         Register
@@ -255,7 +266,7 @@ export default function NavBar({user, setUser}) {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Hidden smDown>
-            {welcomeMessage}
+            <WelcomeText>{welcomeMessage}</WelcomeText>
           </Hidden>  
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {user ? (
