@@ -4,9 +4,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const bcrypt = require("bcrypt");
 
 const create = async (req, res) => {
-    const {password} = req.body;
+    const {password, name} = req.body;
     if (password.length < 3) {
-        return res.status(400).json({ error: "password too short" });
+        return res.status(400).json({ error: "your password is too short" });
+    };
+    if (password.length > 30) {
+        return res.status(400).json({ error: "your password is too long" });
+    };
+    if (name.length > 100) {
+        return res.status(400).json({ error: "your name is too long" });
     };
     try {
     const user = await User.create(req.body);
