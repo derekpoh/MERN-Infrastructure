@@ -25,7 +25,7 @@ const collectionSchema = new Schema({
     },
     genre: [{
         type: String,
-        enum: ["Romance", "Mystery", "Thriller", "Science", "Fantasy", "Academic", "Reference", "Fitness", "Health", "Food", "Cooking", "Art", "Finance", "Self-Help"],
+        enum: ["Romance", "Mystery", "Thriller", "Science", "Fantasy", "Academic", "Reference", "Fitness", "Health", "Food", "Cooking", "Art", "Finance", "Self-Help", "Multi-Cultural"],
         required: true
     }],
     language: {
