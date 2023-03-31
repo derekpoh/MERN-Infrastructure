@@ -7,11 +7,13 @@ require('./config/database');
 const app = express();
 const port = process.env.PORT || 3000;
 const usersRouter = require("./routes/usersRouter");
+const collectionsRouter = require('./routes/collectionsRouter');
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 app.use("/api/users", usersRouter);
+app.use("/api/books", collectionsRouter);
 
 app.get("/api", (req, res) => {
   res.send("Hi!");
