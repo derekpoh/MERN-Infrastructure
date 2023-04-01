@@ -1,11 +1,24 @@
+import { useEffect, useState } from "react";
 import {Link} from "react-router-dom"
+import Carousel from "../../components/Carousel/Carousel"
 
 const FeaturedCarousel = () => {
+
+    const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+        fetch("/api/books")
+        .then((response) => response.json())
+        .then((data) => setBooks(data))
+    }, [])
+    
     return(
         <>
-    <h1>Featured</h1>
-    <Link to="/pages/Featured">View All</Link>
-    <div>Insert FeaturedCarousel</div>
+    <div className="title">
+    <h2 >Featured</h2>
+    <h4><Link to="/books/books">View All</Link></h4>
+    </div>
+    <div><Carousel books={books}/></div>
     </>
     )
 }

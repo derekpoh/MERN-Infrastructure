@@ -10,4 +10,16 @@ const show = async (req, res) => {
   }
 };
 
-module.exports = { show };
+const index = async (req,res) => {
+  try {
+    const books = await Collection.find({}).populate("author").exec();
+    res.status(200).send(books);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+module.exports = { 
+  show,
+  index
+ };
