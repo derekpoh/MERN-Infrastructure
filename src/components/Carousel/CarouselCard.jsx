@@ -1,4 +1,5 @@
 import { Image } from 'pure-react-carousel';
+import {Link} from "react-router-dom"
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import "./Carousel.css"
 
@@ -6,6 +7,7 @@ import "./Carousel.css"
 const CarouselCard = ({book}) => {
 
     return (
+    <Link to={`/books/${book._id}`} style={{textDecoration: "none", color:"black"} }  >
     <div>
     <div>
     <Image className='image' src={`${book.image}`} />  
@@ -15,7 +17,7 @@ const CarouselCard = ({book}) => {
     <p className='carousel-text'>{book.author.name}</p>
     </div>
     </div>
-
+    </Link>
 )
 }
 
