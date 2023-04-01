@@ -16,6 +16,9 @@ const search = async (req, res) => {
           { description: regexQuery },
           { author:  {$in: authorIds } },
           { isbn : { $regex: regexQuery } },
+          { publisher: regexQuery },
+          { genre: regexQuery },
+          { category: regexQuery}
         ],
       }).populate("author");
       res.status(200).json(books);
