@@ -1,0 +1,33 @@
+.title {
+    display: flex;
+    justify-content: space-between;
+        
+}
+
+.image {
+    border-radius: 5px;
+    height: 300px;
+}
+
+
+.buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+.button {
+    opacity: 0.5;
+    }
+
+.carousel__inner-slide {
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        left: 10px;
+        background-color: white;
+      }
+
+.carousel-text {
+    text-overflow: ellipsis;
+    overflow: clip;
+    white-space: nowrap;
+}
