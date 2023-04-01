@@ -1,0 +1,95 @@
+h3 {
+    padding: 0px 0px 10px 0px;
+}
+.aboutBook {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: #0000ff;
+    padding: 40px;
+    font-size: 30px;
+}
+@media (max-width: 600px) {
+    .aboutBook {
+        font-size: 100%;
+    }
+}
+.aboutTitle {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: #595959;
+    padding: 40px 0px 20px 0px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.aboutAuthor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 60%;
+    margin: 0 auto;
+    /* horizontally center the container */
+}
+
+.aboutAuthor span {
+    flex-grow: 1;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: #737373;
+    
+}
+
+.aboutAuthor a {
+    margin-left: -3rem;   
+}
+
+@media (max-width: 600px) {
+    .aboutAuthor {
+        display: wrap;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 100%
+    }
+
+    .authorName {
+        padding-right: 10px;
+        /* adjust the value as needed */
+    }
+}
+
+.borrow {
+    text-align: justify;
+    width: 70%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    margin: 20px auto;
+    max-width: 800px;
+    color: orange;
+    text-decoration:underline;
+}
+
+@media (max-width: 600px) {
+    .borrow {
+        width: 65%;
+        margin: 20px auto;
+        font-size: 50%;
+    }
+}
+
+.summary {
+    text-align: justify;
+    width: 70%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    margin: 50px auto;
+    max-width: 800px;
+    color: #595959;
+}
+
+@media (max-width: 600px) {
+    .summary {
+        width: 65%;
+        font-size: 68%;
+        margin: 50px auto;
+    }
+}
