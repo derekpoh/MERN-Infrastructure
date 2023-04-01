@@ -61,8 +61,14 @@ const changePrefs = async (req, res) => {
       }
 }
 
+const favourites = async (req, res) => {
+    res.send("hi");
+}
+
+
 module.exports = {
     create,
     login,
-    changePrefs
+    changePrefs,
+    favourites
 };
