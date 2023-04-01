@@ -119,7 +119,11 @@ export default function NavBar({user, setUser}) {
   
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
+    if (!searchInput) {
+      return
+    }
     navigate(`/search?q=${encodeURIComponent(searchInput)}`);
+    setSearchInput("");
   }
 
   const menuId = 'primary-search-account-menu';
