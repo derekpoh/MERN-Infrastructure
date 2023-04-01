@@ -98,8 +98,68 @@ const BookDetails = () => {
 
     <hr style={{width: '65%'}} />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div className="borrow">   
-      <h3>E-Copies Available: {book?.books?.length} ></h3> 
+      <h3>E-Copies Available: {book?.books?.length}</h3> 
         <Link to={`/books/${id}/borrow`}>
           <Stack spacing={2} direction="row">
             <CustomButton>Borrow</CustomButton>
@@ -125,7 +185,7 @@ const BookDetails = () => {
           Category: {book.category}<p/>
           Genre: {book.genre}<p/>
         </div>
-
+    <hr style={{width: '65%'}} />
     <p/><p/>    
     </>
     )
