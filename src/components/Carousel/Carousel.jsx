@@ -8,7 +8,7 @@ const Carousel = ({books}) => {
         <CarouselProvider
         naturalSlideWidth={50}
         naturalSlideHeight={80}
-        totalSlides={11}
+        totalSlides={books.length}
         visibleSlides={5}
       >   
         <Slider >
