@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import './BookDetails.css';
 import BorrowConfirmation from "../../components/BorrowConfirmation/BorrowConfirmation";
 import ReturnConfirmation from "../../components/ReturnConfirmation/ReturnConfirmation";
+import { Container, Box, Typography, Button, TextField, Grid } from '@mui/material';
 
 const blue = {
   500: '#007FFF',
@@ -164,7 +165,8 @@ const BookDetails = ({user}) => {
 
     <hr style={{width: '65%'}} />
     <div className="borrow">   
-      <h3>E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3> 
+      <h3 className="e-copies">E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3> 
+
         { !user ? (
           <></>
         ) : (
@@ -184,7 +186,8 @@ const BookDetails = ({user}) => {
             )}
           </Stack>     
         )}
-    </div> 
+     </div>
+
 
 
 
