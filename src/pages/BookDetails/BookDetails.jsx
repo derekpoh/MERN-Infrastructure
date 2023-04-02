@@ -7,6 +7,8 @@ import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled'
 import { styled } from '@mui/system';
 import Stack from '@mui/material/Stack';
 import './BookDetails.css';
+import BorrowConfirmation from "../../components/BorrowConfirmation/BorrowConfirmation";
+import ReturnConfirmation from "../../components/ReturnConfirmation/ReturnConfirmation";
 
 const blue = {
   500: '#007FFF',
@@ -21,7 +23,7 @@ const grey = {
 };
 
 const CustomButton = styled(ButtonUnstyled)(
-  ({ theme }) => `
+  ({ theme, disabled }) => `
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 0.7rem;
@@ -47,26 +49,90 @@ const CustomButton = styled(ButtonUnstyled)(
     box-shadow: 0 3px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
     outline: none;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   `,
 );
 
-const BookDetails = () => {
+const BookDetails = ({user}) => {
 
   const { id } = useParams();
   const [book, setBook] = useState({});
+  const [isBorrowed, setIsBorrowed] = useState(false);
 
   useEffect(() => {
-    const fetchBook = async () => {
+      const fetchBook = async () => {
       const response = await fetch(`/api/books/${id}`);
       const book = await response.json();
       setBook(book);
+      const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser?.toString()===user?._id && !u.returnDate))
+      setIsBorrowed(!!borrowedBook)
     };
     fetchBook();
   }, [id]);
 
-      const publishedDate = new Date(book.publishDate);
-      const formattedDate = `${publishedDate.getDate()} ${publishedDate.toLocaleString('default', { month: 'short' })} ${publishedDate.getFullYear()}`;
+    const publishedDate = new Date(book.publishDate);
+    const formattedDate = `${publishedDate.getDate()} ${publishedDate.toLocaleString('default', { month: 'short' })} ${publishedDate.getFullYear()}`;
     
+    const handleBorrow = async (event) => {
+      event.preventDefault();
+      try {
+          const response = await fetch(`/api/books/${id}/borrow`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+        if (response.ok) {
+          const fetchBook = async () => {
+            const response = await fetch(`/api/books/${id}`);
+            const book = await response.json();
+            setBook(book);
+            const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===user?._id && !u.returnDate))
+            setIsBorrowed(!!borrowedBook);
+          };
+          fetchBook();
+          console.log("borrow ok!")
+        } else {
+          throw new Error("Failed to borrow book");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    const handleReturn = async (event) => {
+      event.preventDefault();
+      try {
+          const response = await fetch(`/api/books/${id}/return`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+        if (response.ok) {
+          const fetchBook = async () => {
+            const response = await fetch(`/api/books/${id}`);
+            const book = await response.json();
+            setBook(book);
+            const borrowedBook = book.books.find(b=>b.loanHistory.some(u=>u.loanUser.toString()===user?._id && !u.returnDate))
+            setIsBorrowed(!!borrowedBook);
+          };
+          fetchBook();
+          console.log("return ok!")
+        } else {
+          throw new Error("Failed to return book");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     return (
     <>
         <div className="aboutBook">About this book</div>
@@ -97,75 +163,87 @@ const BookDetails = () => {
         </div>
 
     <hr style={{width: '65%'}} />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div className="borrow">   
-      <h3>E-Copies Available: {book?.books?.length}</h3> 
-        <Link to={`/books/${id}/borrow`}>
+      <h3>E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3> 
+        { !user ? (
+          <></>
+        ) : (
           <Stack spacing={2} direction="row">
-            <CustomButton>Borrow</CustomButton>
-          </Stack>
-        </Link>          
+            { book?.books?.filter(b=>b.loanStatus==="Available").length === 0 ? (
+              <>
+                <CustomButton disabled>Borrow</CustomButton>
+              </>
+            ) : isBorrowed ? (
+              <>
+              <ReturnConfirmation book={book} handleReturn={handleReturn}/>
+              </>
+            ) : (
+              <>
+              <BorrowConfirmation book={book} handleBorrow={handleBorrow}/>
+              </>
+            )}
+          </Stack>     
+        )}
     </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <hr style={{width: '65%'}} />
 
