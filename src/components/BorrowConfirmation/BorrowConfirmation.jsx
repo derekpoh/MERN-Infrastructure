@@ -4,6 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { Typography } from '@mui/material';
 
 const BorrowConfirmation = ({ book, handleBorrow }) => {
   const [open, setOpen] = useState(false);
@@ -27,11 +28,13 @@ const BorrowConfirmation = ({ book, handleBorrow }) => {
 
   return (
     <>
-      <Button onClick={handleClickOpen}>Borrow</Button>
+      <Button onClick={handleClickOpen} style={{backgroundColor:"#007FFF", color: "white"}}>Borrow</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Proceed to borrow?</DialogTitle>
         <DialogContent>
-          <div>You are about to borrow {book?.title} by {book?.author?.name}.</div>
+            <Typography>
+                You are about to borrow "{book?.title}" by {book?.author?.name}.
+            </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color="inherit">
