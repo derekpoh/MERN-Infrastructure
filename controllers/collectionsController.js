@@ -100,11 +100,43 @@ const returnBook = async (req, res) => {
   }
 }
 
+const addFavourite = async (req, res) => {
+  const user = await User.findById(req.body._id);
+  if (user.favouriteBooks.find(b => b.toString() === req.params.id)) {
+    return res.status(400).json({ message: 'Book has already been added to favourites' });
+  } 
+  try {
+    const userId = req.body._id;
+    console.log(req.body);
+    const newFavourite = await User.findByIdAndUpdate(userId, {$push: {"favouriteBooks" : req.params.id}}).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
+    return res.status(200).send("HI FAV"); 
+  } catch (error) {
+    console.log('error:', error);
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+const deleteFavourite = async (req, res) => {
+    try {
+  const user = await User.findById(req.body._id);
+  const userId = req.body._id;
+  if (user.favouriteBooks.find(b => b.toString() == req.params.id)) {
+    const deleteFavourite = await User.findByIdAndUpdate(userId, {$pull: {"favouriteBooks" : req.params.id}}).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
+      return res.status(201).json({ message: 'Remove book from list' });
+  }
+  } catch (error) {
+    console.log('error:', error);
+    return res.status(400).json({ error: error.message });
+  }     
+  };
+
 module.exports = { 
   show,
   index,
   recommended,
   loans,
   borrowBook,
-  returnBook
+  returnBook,
+  addFavourite,
+  deleteFavourite
  };

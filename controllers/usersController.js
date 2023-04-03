@@ -63,8 +63,11 @@ const changePrefs = async (req, res) => {
 }
 
 const showFavourites = async (req, res) => {
-    res.send("show fav");
-//   try {
+  const user = await User.findById(req.body._id);
+  const favouriteBooks = await User.find({}).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
+
+  console.log("FAV", favouriteBooks);
+  // try {
 //     const userId = req.params.user;
 //     let user = await User.findById(userId);
 //     if (user) {
@@ -79,42 +82,10 @@ const showFavourites = async (req, res) => {
 //   }
 };
 
-const addFavourites = async (req, res) => {
-    const {userId, favouriteBooks} = req.body;
-  try {
-    console.log('userId:', userId);
-    let user = await User.findById(userId);
-    console.log('user:', user);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    if (user.favouriteBooks.includes(bookId)) {
-      return res.status(400).json({ message: 'Book already added to favourites' });
-    }
-
-    user.favouriteBooks.push(bookId);
-    await user.save();
-
-    res.json({ message: 'Book added to favourites' });
-  } catch (error) {
-    console.log('error:', error);
-    res.status(400).json({ error: error.message });
-  }
-};
-
-
-const deleteFavourites = async (req, res) => {
-res.send("delete fav");
-};
-
 
 module.exports = {
     create,
     login,
     changePrefs,
     showFavourites,
-    addFavourites,
-    deleteFavourites
 };
