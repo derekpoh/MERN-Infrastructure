@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
@@ -63,18 +63,45 @@ const BookDetails = ({user}) => {
   const { id } = useParams();
   const [book, setBook] = useState({});
   const [isBorrowed, setIsBorrowed] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(false);
 
   useEffect(() => {
       const fetchBook = async () => {
-      const response = await fetch(`/api/books/${id}`);
-      const book = await response.json();
-      setBook(book);
+      try {
+        const response = await fetch(`/api/books/${id}`);
+        const book = await response.json();
+        setBook(book);
       const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser?.toString()===user?._id && !u.returnDate))
       setIsBorrowed(!!borrowedBook)
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchBook();
   }, [id]);
 
+  useEffect(() => {
+    const checkFavourite = async () => {
+      try {
+        const response = await fetch('/api/users/account/favourites');
+        const favourites = await response.json();
+        setIsFavourite(favourites.includes(id));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    checkFavourite();
+  }, [id]);
+
+  const handleFavouriteClick = async () => {
+    try {
+      const method = isFavourite ? 'DELETE' : 'POST';
+      await fetch(`/api/users/favourites/${id}`, { method });
+      setIsFavourite(!isFavourite);
+    } catch (err) {
+      console.error(err);
+    }
+  };
     const publishedDate = new Date(book.publishDate);
     const formattedDate = `${publishedDate.getDate()} ${publishedDate.toLocaleString('default', { month: 'short' })} ${publishedDate.getFullYear()}`;
     
@@ -146,23 +173,22 @@ const BookDetails = ({user}) => {
           }}
         />
         <div className="aboutTitle">{book.title}</div>
-        
         <div className="aboutAuthor">
           <span className="authorName">{book?.author?.name}</span>
-          <Link to="/users/account/favourites">
               <IconButton
                 size="large"
                 aria-label="your favourites"
-                color="inherit"
+                color='inherit'
                 title="Add Book to Your Favourites List"
+                onClick={handleFavouriteClick}
               >
-                <Badge color="error">
-                  <FavoriteBorderIcon />
-                </Badge>
+                  {isFavourite ? (
+                  <>
+                  <FavoriteIcon color='error' />
+                  <span className="addedText">Added!</span></>
+                  ) : <FavoriteBorderIcon color='inherit' />}
               </IconButton>
-            </Link>  
         </div>
-
     <hr style={{width: '65%'}} />
     <div className="borrow">   
       <h3 className="e-copies">E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3> 
@@ -189,73 +215,12 @@ const BookDetails = ({user}) => {
         )}
      </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <hr style={{width: '65%'}} />
 
         <div className="summary">
           <h3>Summary</h3>
           {book.description} <p/>
         </div>
-
     <hr style={{width: '65%'}} />
 
         <div className="summary">
@@ -265,7 +230,7 @@ const BookDetails = ({user}) => {
           Language: {book.language}<p/>
           ISBN: {book.isbn}<p/>
           Category: {book.category}<p/>
-          Genre: {book.genre}<p/>
+          Genre: {book?.genre?.join(', ')}<p/>
         </div>
     <hr style={{width: '65%'}} />
     <p/><p/>    
@@ -273,4 +238,155 @@ const BookDetails = ({user}) => {
     )
 }
 
-export default BookDetails;
+export default BookDetails;  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

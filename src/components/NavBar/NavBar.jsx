@@ -200,16 +200,18 @@ export default function NavBar({user, setUser}) {
     >
       { user ? ([
       <MenuItem key="your favourites">
-        <IconButton
-          size="large"
-          aria-label="your favourites"
-          color="inherit"
-        >
-          <Badge color="error">
-            <FavoriteBorderIcon />
-          </Badge>
-        </IconButton>
+        <Link to="/users/account/favourites">
+          <IconButton
+            size="large"
+            aria-label="your favourites"
+            color="inherit"
+          >
+            <Badge color="error">
+              <FavoriteBorderIcon />
+            </Badge>
+          </IconButton>
         <p>Your Favourites</p>
+        </Link>
       </MenuItem>,
       <MenuItem key="my-account" onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
         <IconButton

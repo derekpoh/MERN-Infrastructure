@@ -18,8 +18,10 @@ h3 {
     font-family: 'Poppins', sans-serif;
     color: #595959;
     padding: 40px 0px 20px 0px;
-    font-size: 25px;
+    font-size: 100%;
     font-weight: bold;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .aboutAuthor {
@@ -27,8 +29,9 @@ h3 {
     justify-content: space-between;
     align-items: center;
     max-width: 60%;
+    width: 90%;
     margin: 0 auto;
-    /* horizontally center the container */
+    font-size: 90%;
 }
 
 .aboutAuthor span {
@@ -52,8 +55,22 @@ h3 {
     }
 
     .authorName {
-        padding-right: 10px;
-        /* adjust the value as needed */
+        padding-left: 60px;
+    }
+}
+
+.addedText {
+    position: absolute;
+    top: 50%;
+    left: 45px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #f44336;
+}
+
+@media (max-width: 600px) {
+    .addedText {
+        display: none;
     }
 }
 
@@ -74,7 +91,7 @@ h3 {
 
 @media (max-width: 600px) {
     .borrow {
-        width: 65%;
+        width: 75%;
         margin: 20px auto;
         font-size: 50%;
     }
@@ -92,8 +109,8 @@ h3 {
 
 @media (max-width: 600px) {
     .summary {
-        width: 65%;
+        width: 75%;
         font-size: 68%;
-        margin: 50px auto;
+        margin: 40px auto;
     }
 }

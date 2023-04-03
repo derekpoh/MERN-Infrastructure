@@ -15,12 +15,18 @@ import BookDetails from "../BookDetails/BookDetails";
 import UserAccountPage from "../UserAccount/UserAccountPage";
 import Preferences from "../Preferences/Preferences";
 import Search from "../Search/Search";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import "dayjs/locale/en-gb"
+
+
 
 
 export default function App() {
   const [user,setUser] = useState(getUser());
 
   return (
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb" >
     <main className="App">
       <NavBar user={user} setUser={setUser}/>
       <Routes>
@@ -39,5 +45,6 @@ export default function App() {
         <Route path="/search" element={<Search />} />
       </Routes>
     </main>
+    </LocalizationProvider>
   )
 }
