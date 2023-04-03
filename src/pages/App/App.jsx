@@ -5,7 +5,7 @@ import HomePage from "../HomePage/HomePage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import LoginPage from "../LoginPage/LoginPage";
 import { getUser } from '../../utilities/users-service';
-import LoansPage from "../Loans/LoansPage"
+import SetReminderPage from "../Loans/SetReminderPage"
 import RecommendedPage from "../Recommended/RecommendedPage";
 import FeaturedPage from "../Featured/FeaturedPage";
 import GenresPage from "../Genres/GenresPage"
