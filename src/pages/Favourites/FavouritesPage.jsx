@@ -1,31 +1,34 @@
- import { useState, useEffect } from 'react';
- 
-const FavouritesPage = () => {
-  const [favourites, setFavourites] = useState([]);
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+const FavouritesPage = ({ user }) => {
+  const {id} = useParams();
+  const [favouriteBooks, setFavouriteBooks] = useState([]);
 
   useEffect(() => {
     const fetchFavourites = async () => {
       try {
         const response = await fetch('/api/users/account/favourites');
         const favourites = await response.json();
-        setFavourites(favourites);
+        setFavouriteBooks(favourites);
       } catch (error) {
         console.log('Error fetching favourites:', error);
       }
     };
 
     fetchFavourites();
-  }, []);
+  }, []);  
 
   return (
-    <div>
-      <h1>Favourites</h1>
-      <ul>
-        {favourites.map((book) => (
-          <li key={book.id}>{book.title}</li>
-        ))}
-      </ul>
-    </div>
+    <><p>hi</p></>
+    // <div>
+    //   <h1>Favourites</h1>
+    //   <ul>
+    //     {favourites.map((book) => (
+          
+    //     ))}
+    //   </ul>
+    // </div>
   );
 };
 

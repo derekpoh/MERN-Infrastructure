@@ -10,6 +10,7 @@ import './BookDetails.css';
 import BorrowConfirmation from "../../components/BorrowConfirmation/BorrowConfirmation";
 import ReturnConfirmation from "../../components/ReturnConfirmation/ReturnConfirmation";
 import { Container, Box, Typography, Button, TextField, Grid } from '@mui/material';
+import { getUser } from "../../utilities/users-service";
 
 const blue = {
   500: '#007FFF',
@@ -58,7 +59,7 @@ const CustomButton = styled(ButtonUnstyled)(
   `,
 );
 
-const BookDetails = ({user}) => {
+const BookDetails = ({user, setUser}) => {
 
   const { id } = useParams();
   const [book, setBook] = useState({});
@@ -93,15 +94,35 @@ const BookDetails = ({user}) => {
     checkFavourite();
   }, [id]);
 
-  const handleFavouriteClick = async () => {
-    try {
-      const method = isFavourite ? 'DELETE' : 'POST';
-      await fetch(`/api/users/favourites/${id}`, { method });
-      setIsFavourite(!isFavourite);
-    } catch (err) {
-      console.error(err);
+const handleFavouriteClick = async (event) => {
+  event.preventDefault();
+  try {
+    const method = isFavourite ? 'DELETE' : 'POST';
+    const response = await fetch(`/api/books/${id}/addFavourite`, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({_id: user._id}),
+    });
+    if (response.ok) {
+      setIsFavourite(!isFavourite); // set the state to indicate that the book has been added to favourites
     }
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+  // const method = isFavourite ? 'DELETE' : 'POST';
+    // const response = await fetch(`/api/users/favourites/${id}`, {
+    //   method: method,
+    //   headers: { 'Content-Type': 'application/json'},
+    //   body: JSON.stringify({ userId: user._id, favouriteBooks: favouriteBooks }),
+    // // });
+    // setIsFavourite(!isFavourite);
+
+
     const publishedDate = new Date(book.publishDate);
     const formattedDate = `${publishedDate.getDate()} ${publishedDate.toLocaleString('default', { month: 'short' })} ${publishedDate.getFullYear()}`;
     
@@ -175,6 +196,9 @@ const BookDetails = ({user}) => {
         <div className="aboutTitle">{book.title}</div>
         <div className="aboutAuthor">
           <span className="authorName">{book?.author?.name}</span>
+              { !user? (
+                <></>
+              ) : (
               <IconButton
                 size="large"
                 aria-label="your favourites"
@@ -188,6 +212,8 @@ const BookDetails = ({user}) => {
                   <span className="addedText">Added!</span></>
                   ) : <FavoriteBorderIcon color='inherit' />}
               </IconButton>
+              )}
+              
         </div>
     <hr style={{width: '65%'}} />
     <div className="borrow">   
