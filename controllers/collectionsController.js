@@ -85,10 +85,10 @@ const returnBook = async (req, res) => {
     if (!userId) {
       return res.status(400).json({ error: "Not logged in" });
     }
-    if (book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()!==userId))) {
-      return res.status(400).json({ error: "User didn't borrow a book from this collection" });
-    }
-    const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===userId))._id
+    // if (book.books.find(b=>b.loanHistory.some(u=>u.loanUser.toString()!==userId))) {
+    //   return res.status(400).json({ error: "User didn't borrow a book from this collection" });
+    // }
+    const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===userId && !u.returnDate))._id
     const returnBook = await Book.findOneAndUpdate(
       { _id: borrowedBook._id, "loanHistory.loanUser" : userId, "loanHistory.returnDate": null},
       { $set: { 'loanHistory.$.returnDate': new Date(), loanStatus: 'Available' } },
