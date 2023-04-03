@@ -21,12 +21,5 @@ const CarouselCard = ({book}) => {
 )
 }
 
-//  <Image tag='div' isBgImage={true} className='image' src={`${book.image}`} >  
-// <div className='text'>
-// <h2>{book.title}</h2>
-// <p>{book.publisher}</p>
-// </div>
-// </Image> 
-
 
 export default CarouselCard

@@ -14,6 +14,8 @@ const LoansPage = ({user}) => {
 
 return(
     <div>
+        <h1>Loans</h1>
+        {books.length === 0 ? <h4>No borrowed books at the moment</h4> : ""}
         {
             books.map((book) => 
                 <LoansPageCard book={book} key={book._id} />

@@ -1,11 +1,24 @@
+import { useState, useEffect } from "react";
+import RecommendedPageCard from "./RecommendedPageCard";
 
+const RecommendedPage = ({user}) => {
 
+    const [books, setBooks] = useState([]);
 
-
-const RecommendedPage = () => {
+    useEffect(() => {
+        fetch(`/api/books/${user._id}/recommended`)
+        .then((response) => response.json())
+        .then((data) => setBooks(data))
+    }, [user._id])
 
     return (
-        <h1>RecommendedPage</h1>
+        <div>
+        {
+            books.map((book) => 
+                <RecommendedPageCard book={book} key={book._id} />
+            )
+        }
+    </div>
     )
 }
 
