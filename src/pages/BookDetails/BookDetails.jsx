@@ -214,45 +214,6 @@ const BookDetails = ({user}) => {
         )}
      </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <hr style={{width: '65%'}} />
 
         <div className="summary">
@@ -299,6 +260,9 @@ export default BookDetails;
 
 
 
+
+
+
     
     
     
@@ -357,40 +321,8 @@ export default BookDetails;
 
 
 
-    <div className="borrow">   
-      <h3>E-Copies Available: {book?.books?.length}</h3> 
-        <Link to={`/books/${id}/borrow`}>
-          <Stack spacing={2} direction="row">
-            <CustomButton>Borrow</CustomButton>
-          </Stack>
-        </Link>          
-    </div> 
 
-    <hr style={{width: '65%'}} />
 
-        <div className="summary">
-          <h3>Summary</h3>
-          {book.description} <p/>
-        </div>
-
-    <hr style={{width: '65%'}} />
-
-        <div className="summary">
-          <h3>Details</h3>
-          Publisher: {book.publisher}<p/>
-          Published: {formattedDate}<p/>
-          Language: {book.language}<p/>
-          ISBN: {book.isbn}<p/>
-          Category: {book.category}<p/>
-          Genre: {book?.genre?.join(', ')}<p/>
-        </div>
-    <hr style={{width: '65%'}} />
-    <p/><p/>    
-    </>
-    )
-}
-
-export default BookDetails;  
 
 
 
