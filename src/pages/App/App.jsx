@@ -36,7 +36,8 @@ export default function App() {
         <Route path="/users/register" element={<RegisterPage setUser={setUser}/>}></Route>
         <Route path="/users/account" element={<UserAccountPage />}/>
         <Route path="/users/account/preferences" element={<Preferences user={user} setUser={setUser}/>} />
-        <Route path="/users/account/loans" element={<LoansPage />} />
+        <Route path="/users/account/loans" element={<LoansPage user={user} />} />
+        <Route path="/users/account/setreminder" element={<SetReminderPage user={user} />} />
         <Route path="/users/account/favourites" element={<FavouritesPage />} />
         <Route path="/users/account/history" element={<HistoryPage />} />
         <Route path="/books/featured" element={<FeaturedPage />} />

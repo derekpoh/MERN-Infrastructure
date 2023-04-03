@@ -45,14 +45,31 @@ const recommended = async (req,res) => {
   }
 }
 
-const loans = async (req,res) => {
+const loans = async (req, res) => {
   try {
-    const books = await Collection.find({}).populate("author").exec();
-    res.status(200).send(books);
+    const userId = req.params.id;
+    const loanedBooks = await Book.find({
+      loanHistory: {
+        $elemMatch: {
+          loanUser: `${userId}`,
+          returnDate: null,
+        },
+      },
+      loanStatus: "Unavailable",
+    });
+    const loanedBooksCollectionPromises = loanedBooks.map(async (book) => {
+      const bookCollection = await Collection.find({ books: book._id }).populate("author").exec();
+      const [bookOnLoan] = bookCollection
+      return bookOnLoan;
+    });
+
+    const loanedBooksCollection = await Promise.all(loanedBooksCollectionPromises);
+    res.status(200).send(loanedBooksCollection);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).send("Server error");
   }
-}
+};
 
 const borrowBook = async (req, res) => {
   try {
