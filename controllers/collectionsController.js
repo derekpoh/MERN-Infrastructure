@@ -22,10 +22,20 @@ const index = async (req,res) => {
   }
 }
 
+const genres = async (req,res) => {
+  try {
+    const books = await Collection.find({genre: req.params.genre}).populate("author").exec();
+    res.status(200).send(books);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
 const recommended = async (req,res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (user.preferredGenres === null) {
+    if (user.preferredGenres.length !== 0) {
     const { preferredGenres } = user;
     const genres = () => preferredGenres.map(genre => {
       return(
@@ -155,5 +165,6 @@ module.exports = {
   borrowBook,
   returnBook,
   addFavourite,
-  deleteFavourite
+  deleteFavourite,
+  genres
  };

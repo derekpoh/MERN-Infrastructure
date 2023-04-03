@@ -5,6 +5,8 @@ const nodemailer = require("nodemailer")
 const mailgen = require("mailgen")
 
 const setReminder = async (req,res) => {
+  const {user} = req.body;
+  const returnDate = req.body.reminder;
 
     const transporter = nodemailer.createTransport({
         service: "outlook",
@@ -20,7 +22,7 @@ const setReminder = async (req,res) => {
             name: "National Library Board",
             link:"https://mailgen.js"
         }
-    })
+    });
         
     const response = {
             body: {
@@ -37,25 +39,35 @@ const setReminder = async (req,res) => {
                 },
                 outro: "This is an auto-generated message, please do not reply."
             }
-        }
+        };
         
     const mail = mailGenerator.generate(response);
         
     const message = {
             from: process.env.EMAIL,
-            to: "derekpoh_95@hotmail.com", 
+            to: `${user.email}`, 
             subject: "Book Notification", 
             html: mail, 
         };
 
-    const someDate = new Date(2023, 3, 3, 1, 40, 0);
-    schedule.scheduleJob(someDate, () => {
+    const date = new Date(returnDate); 
+    const year = date.getFullYear()
+    const month = date.getMonth();
+    const dayOfMonth = date.getDate(); 
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const reminderDate = new Date(`${year}`, `${month}`, `${dayOfMonth}`, `${hour}`, `${minute}` , 0 );
+    console.log(`${year}`, `${month}`, `${dayOfMonth}`, `${hour}`, `${minute}` , 0 )
+
+//const reminderDate = new Date(2023, 3 ,4 ,2 ,35, 0)
+console.log(reminderDate)
+    schedule.scheduleJob(reminderDate, () => {
         transporter.sendMail(message);
-        console.log("hi")
-    })
+        console.log("email sent!")
+    });
         
     res.status(200).send(req.body);
-    }
+    };
 
 
 
@@ -74,7 +86,7 @@ const index = async (req, res) => {
           });
       
           const loanedBooksCollectionPromises = loanedBooks.map(async (book) => {
-            const bookCollection = await Collection.find({ books: book._id })
+            const bookCollection = await Collection.find({ books: book._id }).populate("author").exec();
             const [bookOnLoan] = bookCollection
             return bookOnLoan;
           });

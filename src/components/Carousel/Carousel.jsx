@@ -4,7 +4,13 @@ import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-re
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const Carousel = ({books}) => {
-    return(    
+
+
+
+    return(  
+      <>
+      {books.length === 0 ? <h4>No borrowed books at the moment</h4> : ""}
+
         <CarouselProvider
         naturalSlideWidth={50}
         naturalSlideHeight={80}
@@ -23,6 +29,7 @@ const Carousel = ({books}) => {
         <ButtonNext className="button">⇾</ButtonNext>
         </div>
       </CarouselProvider>
+      </>
         )
 }
 

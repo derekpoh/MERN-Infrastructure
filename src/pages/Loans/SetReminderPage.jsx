@@ -1,5 +1,6 @@
 import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker"
 import { useState, useMemo } from "react";
+import { Link, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 
 
@@ -7,10 +8,11 @@ const currentDate = dayjs(new Date());                                      //ad
 const maxDate = currentDate.add(1, "month");
 
 
-const SetReminderPage = () => {
+const SetReminderPage = ({user}) => {
 
     const [reminder, setReminder] = useState(currentDate);
     const [error, setError] = useState(null);
+    const { bookId } = useParams();
 
     const errorMessage = useMemo(() => {
         switch (error) {   
@@ -34,7 +36,7 @@ const SetReminderPage = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({reminder}),
+            body: JSON.stringify({reminder, user, bookId}),
         });
         console.log(reminder)
         return console.log (await response.json())

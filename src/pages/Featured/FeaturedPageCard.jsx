@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom"
 
-const LoansPageCard = ({book}) => {
-
+const FeaturedPageCard = ({book}) => {
+    
     return(
         <Link to={`/books/${book._id}`} style={{textDecoration: "none", color:"black"} }  >
         <div>
@@ -14,4 +14,4 @@ const LoansPageCard = ({book}) => {
     )
 }
 
-export default LoansPageCard
+export default FeaturedPageCard

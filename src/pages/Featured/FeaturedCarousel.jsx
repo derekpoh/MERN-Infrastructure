@@ -16,7 +16,9 @@ const FeaturedCarousel = () => {
         <>
     <div className="title">
     <h2 >Featured</h2>
-    <h4><Link to="/books/books">View All</Link></h4>
+    <h4><Link to="/books/featured" 
+    style={{textDecoration: "none", color:"blue"} }   
+    >View All</Link></h4>
     </div>
     <div><Carousel books={books}/></div>
     </>

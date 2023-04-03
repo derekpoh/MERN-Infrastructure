@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 const UserAccountPage = ({id}) => {
     return (
         <>
-        <Link to={"preferences"}>
+        <Link to={"/users/account/preferences"}>
         <button>Preferences</button>
         </Link>
-        <Link to={`/pages/${id}/Loans`}>
+        <Link to={`/users/account/loans`}>
         <button>Loans</button>
         </Link>
-        <Link to={`/pages/${id}/Favourites`}>
+        <Link to={`/users/account/favourites`}>
         <button>Favourites</button>
         </Link>
         <Link to={`/pages/${id}/History`}>

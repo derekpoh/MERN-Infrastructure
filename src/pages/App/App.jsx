@@ -35,12 +35,13 @@ export default function App() {
         <Route path="/users/account/preferences" element={<Preferences user={user} setUser={setUser}/>} />
         <Route path="/users/account/favourites" element={<FavouritesPage user={user}/>} />
         <Route path="/users/account/loans" element={<LoansPage user={user} />} />
-        <Route path="/users/account/setreminder" element={<SetReminderPage user={user} />} />
+        <Route path="/users/account/favourites" element={<FavouritesPage />} />
         <Route path="/users/account/history" element={<HistoryPage />} />
         <Route path="/books/featured" element={<FeaturedPage />} />
-        <Route path="/books/genres" element={<GenresPage />} />
-        <Route path="/books/recommended" element={<RecommendedPage />} />
-        <Route path="/books/:id" element={<BookDetails user={user} setUser={setUser}/>} />
+        <Route path="/books/genres/:genre" element={<GenresPage />} />
+        <Route path="/books/recommended"  element={<RecommendedPage user={user}  />} />
+        <Route path="/books/:id/setreminder" element={<SetReminderPage user={user} />} />
+        <Route path="/books/:id" element={<BookDetails user={user}/>} />
         <Route path="/search" element={<Search />} />
       </Routes>
     </main>
