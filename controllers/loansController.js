@@ -1,3 +1,5 @@
+const Book = require("../models/Book")
+const Collection = require("../models/Collection")
 const schedule = require("node-schedule")
 const nodemailer = require("nodemailer")
 const mailgen = require("mailgen")
@@ -56,6 +58,37 @@ const setReminder = async (req,res) => {
     }
 
 
+
+
+const index = async (req, res) => {
+        try {
+          const userId = req.params.id;
+          const loanedBooks = await Book.find({
+            loanHistory: {
+              $elemMatch: {
+                loanUser: `${userId}`,
+                returnDate: null,
+              },
+            },
+            loanStatus: "Unavailable",
+          });
+      
+          const loanedBooksCollectionPromises = loanedBooks.map(async (book) => {
+            const bookCollection = await Collection.find({ books: book._id })
+            const [bookOnLoan] = bookCollection
+            return bookOnLoan;
+          });
+      
+          const loanedBooksCollection = await Promise.all(loanedBooksCollectionPromises);
+          res.status(200).send(loanedBooksCollection);
+        } catch (error) {
+          console.error(error);
+          res.status(500).send("Server error");
+        }
+      };
+
+
 module.exports = {
     setReminder,
+    index
 }
