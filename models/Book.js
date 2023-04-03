@@ -21,7 +21,7 @@ const bookSchema = new Schema({
     loanHistory: [loanHistorySchema],
     loanStatus: {
         type: String,
-        enum: ["Borrowed", "Available"],
+        enum: ["Unavailable", "Available"],
         default: "Available",
         required: true
     },

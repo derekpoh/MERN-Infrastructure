@@ -26,8 +26,8 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
-  marginLeft: theme.spacing(1),
+  marginRight: theme.spacing(1),
+  marginLeft: theme.spacing(2),
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
@@ -119,7 +119,11 @@ export default function NavBar({user, setUser}) {
   
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
+    if (!searchInput) {
+      return
+    }
     navigate(`/search?q=${encodeURIComponent(searchInput)}`);
+    setSearchInput("");
   }
 
   const menuId = 'primary-search-account-menu';
@@ -256,7 +260,7 @@ export default function NavBar({user, setUser}) {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{ mr: 1 }}
           >
             <MenuIcon />
           </IconButton>

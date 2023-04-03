@@ -1,7 +1,8 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from "react-router-dom";
-import App from './pages/App/App'
+import App from './pages/App/App';
+import "@fontsource/roboto";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

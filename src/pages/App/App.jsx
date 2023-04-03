@@ -35,10 +35,8 @@ export default function App() {
         <Route path="/books/featured" element={<FeaturedPage />} />
         <Route path="/books/genres" element={<GenresPage />} />
         <Route path="/books/recommended" element={<RecommendedPage />} />
-        <Route path="/books/:id" element={<BookDetails />} />
+        <Route path="/books/:id" element={<BookDetails user={user}/>} />
         <Route path="/search" element={<Search />} />
-        {/* <Route path="/books/:id/borrow" element={<BorrowBook />} />
-        <Route path="/books/:id/return" element={<ReturnBook />} /> */}
       </Routes>
     </main>
   )

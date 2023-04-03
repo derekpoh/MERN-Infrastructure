@@ -64,6 +64,10 @@ h3 {
     font-size: 14px;
     margin: 20px auto;
     max-width: 800px;
+
+}
+
+.borrow .e-copies {
     color: orange;
     text-decoration:underline;
 }

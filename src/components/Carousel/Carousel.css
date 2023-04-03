@@ -9,6 +9,10 @@
     height: 300px;
 }
 
+.genre-image {
+    border-radius: 5px;
+    height: 200px;
+}
 
 .buttons {
         display: flex;
