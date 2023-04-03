@@ -197,19 +197,20 @@ const BookDetails = ({user}) => {
           <></>
         ) : (
           <Stack spacing={2} direction="row">
-            { book?.books?.filter(b=>b.loanStatus==="Available").length === 0 ? (
-              <>
-                <CustomButton disabled>Borrow</CustomButton>
-              </>
-            ) : isBorrowed ? (
+            { isBorrowed ? (
               <>
               <ReturnConfirmation book={book} handleReturn={handleReturn}/>
+              </>
+            ) : book?.books?.filter(b=>b.loanStatus==="Available").length === 0 ? (
+              <>
+              <BorrowConfirmation disabled={book?.books?.filter(b=>b.loanStatus==="Available").length === 0} />
               </>
             ) : (
               <>
               <BorrowConfirmation book={book} handleBorrow={handleBorrow}/>
               </>
             )}
+
           </Stack>     
         )}
      </div>

@@ -21,22 +21,6 @@ export default function RegisterPage({setUser}) {
             Sign Up
           </Typography>
           <RegisterForm setUser={setUser} />
-          <Grid container justifyContent="center">
-            <Grid item>
-              <Typography variant="body2" align="center">
-                Already have an account?
-              </Typography>
-            </Grid>
-          </Grid>
-          <Button
-            component={Link}
-            to="/users/login"
-            color="primary"
-            variant="outlined"
-            sx={{ marginTop: 2 }}
-          >
-            Login
-          </Button>
         </Box>
       </Container>
     );

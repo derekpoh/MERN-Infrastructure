@@ -1,6 +1,6 @@
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import { genres } from "../../../public/CarouselPictures/GenresCarouselPictures"
+import { genres } from "../../components/CarouselPictures/GenresCarouselPictures"
 import GenresCarouselCard from "./GenresCarouselCard"
 
 const GenresCarousel = () => {
