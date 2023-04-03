@@ -1,12 +1,26 @@
+import { useState, useEffect } from "react";
+import LoansPageCard from "./LoansPageCard";
 
 
-const LoansPage = () => {
+const LoansPage = ({user}) => {
+
+    const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+        fetch(`/api/loans/${user._id}`)
+        .then((response) => response.json())
+        .then((data) => setBooks(data))
+    }, [user._id])
 
 return(
-<h1>Loans Page</h1>
-)
+    <div>
+        {
+            books.map((book) => 
+                <LoansPageCard book={book} key={book._id} />
+            )
+        }
+    </div>
+)}
 
-
-}
 
 export default LoansPage

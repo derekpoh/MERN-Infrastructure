@@ -7,7 +7,7 @@ const currentDate = dayjs(new Date());                                      //ad
 const maxDate = currentDate.add(1, "month");
 
 
-const LoansPage = () => {
+const SetReminderPage = () => {
 
     const [reminder, setReminder] = useState(currentDate);
     const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ const LoansPage = () => {
 
 
     const handleReminder = async () => {
-        const response = await fetch("/api/loans", {
+        const response = await fetch("/api/loans/setreminder", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -63,4 +63,4 @@ const LoansPage = () => {
     )
 }
 
-export default LoansPage
+export default SetReminderPage
