@@ -11,5 +11,6 @@ router.post("/:id/borrow", collectionsController.borrowBook);
 router.post("/:id/return", collectionsController.returnBook);
 router.post("/:id/addFavourite", collectionsController.addFavourite);
 router.delete("/:id/addFavourite", collectionsController.deleteFavourite);
+router.delete("/:id/deleteFavouritePage", collectionsController.deleteFavouritePage);
 
 module.exports = router;

@@ -210,7 +210,7 @@ export default function NavBar({user, setUser}) {
               <FavoriteBorderIcon />
             </Badge>
           </IconButton>
-        <p>Your Favourites</p>
+        Favourites
         </Link>
       </MenuItem>,
       <MenuItem key="my-account" onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
@@ -289,11 +289,11 @@ export default function NavBar({user, setUser}) {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {user ? (
             <>
-              <IconButton size="large" color="inherit">
-                <Badge color="error">
+            <Link to="/users/account/favourites">
+              <IconButton size="large" color="inherit" style={{ color: "white" }}>
                   <FavoriteBorderIcon />
-                </Badge>
               </IconButton>
+               </Link>
               <IconButton
                 size="large"
                 edge="end"
