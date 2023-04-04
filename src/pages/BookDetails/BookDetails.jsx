@@ -84,7 +84,7 @@ const BookDetails = ({user, setUser}) => {
   useEffect(() => {
     const checkFavourite = async () => {
       try {
-        const response = await fetch('/api/users/account/favourites');
+        const response = await fetch(`/api/users/${id}/favourites`);
         const favourites = await response.json();
         setIsFavourite(favourites.includes(id));
       } catch (err) {
@@ -112,16 +112,6 @@ const handleFavouriteClick = async (event) => {
     console.error(err);
   }
 };
-
-
-  // const method = isFavourite ? 'DELETE' : 'POST';
-    // const response = await fetch(`/api/users/favourites/${id}`, {
-    //   method: method,
-    //   headers: { 'Content-Type': 'application/json'},
-    //   body: JSON.stringify({ userId: user._id, favouriteBooks: favouriteBooks }),
-    // // });
-    // setIsFavourite(!isFavourite);
-
 
     const publishedDate = new Date(book.publishDate);
     const formattedDate = `${publishedDate.getDate()} ${publishedDate.toLocaleString('default', { month: 'short' })} ${publishedDate.getFullYear()}`;
@@ -210,7 +200,9 @@ const handleFavouriteClick = async (event) => {
                   <>
                   <FavoriteIcon color='error' />
                   <span className="addedText">Added!</span></>
-                  ) : <FavoriteBorderIcon color='inherit' />}
+                  ) : <>
+                  <FavoriteBorderIcon color='inherit' />
+                  </>}
               </IconButton>
               )}
               

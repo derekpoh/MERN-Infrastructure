@@ -133,10 +133,9 @@ const addFavourite = async (req, res) => {
     return res.status(400).json({ message: 'Book has already been added to favourites' });
   } 
   try {
-    const userId = req.body._id;
-    console.log(req.body);
+    const userId = req.body._id; 
     const newFavourite = await User.findByIdAndUpdate(userId, {$push: {"favouriteBooks" : req.params.id}}).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
-    return res.status(200).send("HI FAV"); 
+    return res.status(200).json({ message: "Book has been added to favourites." }); 
   } catch (error) {
     console.log('error:', error);
     return res.status(400).json({ error: error.message });
@@ -157,6 +156,16 @@ const deleteFavourite = async (req, res) => {
   }     
   };
 
+  const deleteFavouritePage = async (req, res) => {
+    res.send("delete fav page");
+  //   // try {
+  // const userId = req.params.id;
+  // const bookId = await User.findById(userId).populate("favouriteBooks").exec();
+  // console.log("deleteFav", bookId);
+  // const deleteFavouritePage = await User.findByIdAndUpdate(userId, {$pull: {"favouriteBooks" : req.params.id}}).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
+
+  };
+
 module.exports = { 
   show,
   index,
@@ -166,5 +175,6 @@ module.exports = {
   returnBook,
   addFavourite,
   deleteFavourite,
-  genres
+  genres,
+  deleteFavouritePage
  };

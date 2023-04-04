@@ -63,25 +63,18 @@ const changePrefs = async (req, res) => {
 }
 
 const showFavourites = async (req, res) => {
-  const user = await User.findById(req.body._id);
-  const favouriteBooks = await User.find({}).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
-
-  console.log("FAV", favouriteBooks);
-  // try {
-//     const userId = req.params.user;
-//     let user = await User.findById(userId);
-//     if (user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-//     if (user.favourites.length === 0) {
-//       return res.status(200).json({ message: 'User has no favourites' });
-//     }
-//     res.status(200).send(user.favourites);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
+    const userId = req.params.id;
+    if (!userId) {
+        return res.status(400).json({ error: "User is missing" });
+    }
+    try {
+    const showFavBooks = await User.findById(userId).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
+    res.json({ showFavBooks });  
+    } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 };
-
 
 module.exports = {
     create,
