@@ -17,7 +17,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import * as userService from "../../utilities/users-service";
 import Hidden from "@mui/material/Hidden";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Typography } from "@mui/material";
+import { Typography, Divider, ListItemText, ListItemIcon, Paper } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
+import Favorite from "@mui/icons-material/Favorite";
+import OutletIcon from '@mui/icons-material/Outlet';
+import ChildCareIcon from '@mui/icons-material/ChildCare';
+import OutdoorGrill from "@mui/icons-material/OutdoorGrill";
+import GroupsIcon from '@mui/icons-material/Groups';
+import HelpIcon from '@mui/icons-material/Help';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -71,18 +78,50 @@ export default function NavBar({user, setUser}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [searchInput, setSearchInput] = React.useState("");
-
+  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  
+  const [leftMenuAnchorEl, setLeftMenuAnchorEl] = React.useState(null);
+  const [mobileLeftMenuAnchorEl, setMobileLeftMenuAnchorEl] = React.useState(null);
+  const isLeftMenuOpen = Boolean(leftMenuAnchorEl);
+  const isMobileLeftMenuOpen = Boolean(mobileLeftMenuAnchorEl);
+
+  const [leftLoginMenuAnchorEl, setLeftLoginMenuAnchorEl] = React.useState(null);
+  const isLeftLoginMenuOpen = Boolean(setLeftLoginMenuAnchorEl); 
+
+  const handleLeftMenuOpen = (event) => {
+    setLeftMenuAnchorEl(event.currentTarget);
+  }
+
+  const handleLeftMenuClose = () => {
+    setLeftMenuAnchorEl(null);
+    handleLeftMobileMenuClose();
+  }
+  
+  const handleLeftMobileMenuOpen = (event) => {
+    setMobileLeftMenuAnchorEl(event.currentTarget);
+  };
+  
+  const handleLeftMobileMenuClose = () => {
+    setMobileLeftMenuAnchorEl(null);
+  };
+
+  const handleLeftLoginMenuOpen = (event) => {
+    setLeftLoginMenuAnchorEl(event.currentTarget);
+  };
+  
+  const handleLeftLoginMenuClose = (callback) => {
+    setLeftLoginMenuAnchorEl(null);
+    if (callback) {
+      callback();
+    }
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
+  
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -91,14 +130,17 @@ export default function NavBar({user, setUser}) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
   const [loginMenuAnchorEl, setLoginMenuAnchorEl] = React.useState(null);
   const isLoginMenuOpen = Boolean(loginMenuAnchorEl);
-
+  
   const handleLoginMenuOpen = (event) => {
     setLoginMenuAnchorEl(event.currentTarget);
   };
-
+  
   const handleLoginMenuClose = (callback) => {
     setLoginMenuAnchorEl(null);
     if (callback) {
@@ -125,6 +167,75 @@ export default function NavBar({user, setUser}) {
     navigate(`/search?q=${encodeURIComponent(searchInput)}`);
     setSearchInput("");
   }
+  const leftMenuId = 'left-menu';
+  const renderLeftMenu = (
+    <Menu
+      anchorEl={leftMenuAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      id={leftMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      open={isLeftMenuOpen}
+      onClose={handleLeftMenuClose}
+      PaperProps={{elevation:0}}
+    >
+       <Paper sx={{ width: 240, maxWidth: '100%' }}>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/featured"));}}>
+          <ListItemIcon>
+            <StarIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Featured</ListItemText>
+      </MenuItem>
+      <Divider/>
+      <MenuItem>
+        <ListItemText>Genres:</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Romance"));}}>
+          <ListItemIcon>
+            <Favorite fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Romance</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Thriller"));}}>
+          <ListItemIcon>
+            <OutletIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Thriller</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Children"));}}>
+          <ListItemIcon>
+            <ChildCareIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Children</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Cooking"));}}>
+          <ListItemIcon>
+            <OutdoorGrill fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Cooking</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Multi-Cultural"));}}>
+          <ListItemIcon>
+            <GroupsIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Multi-Cultural</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Mystery"));}}>
+          <ListItemIcon>
+            <HelpIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Mystery</ListItemText>
+      </MenuItem>
+      </Paper>
+    </Menu>
+  );
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -143,7 +254,10 @@ export default function NavBar({user, setUser}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>My Account</MenuItem>
+      <MenuItem onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
+        My Account
+      </MenuItem>
+      <Divider/>
       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
   );
@@ -263,6 +377,7 @@ export default function NavBar({user, setUser}) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 1 }}
+            onClick={handleLeftMenuOpen}
           >
             <MenuIcon />
           </IconButton>
@@ -336,6 +451,7 @@ export default function NavBar({user, setUser}) {
           </Box>
         </Toolbar>
       </AppBar>
+      {renderLeftMenu}
       {renderMobileMenu}
       {renderMenu}
     </Box>

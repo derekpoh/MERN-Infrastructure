@@ -2,13 +2,18 @@ import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker"
 import { useState, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import dayjs from "dayjs";
+import { Container, Box} from "@mui/system";
+import { Typography, Button } from "@mui/material";
+import ReminderConfirmation from "../../components/ReminderConfirmation/ReminderConfirmation";
+
+
 
 
 const currentDate = dayjs(new Date());                                      //add 1 month to current date
 const maxDate = currentDate.add(1, "month");
 
 
-const SetReminderPage = ({user}) => {
+const SetReminderPage = ({book, user}) => {
 
     const [reminder, setReminder] = useState(currentDate);
     const [error, setError] = useState(null);
@@ -44,8 +49,24 @@ const SetReminderPage = ({user}) => {
 
 
     return (
-        <div>
-        <h1>Pick a date and time</h1>
+      <Container maxWidth="xs">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: "flex-start",
+            minHeight: '100vh',
+            paddingTop: theme => theme.spacing(2),
+          }}
+        >
+                    <img src="/favicon.png" alt="Logo" width="80" />
+          <Typography component="h1" variant="h6" align="center" sx={{marginBottom:3}}>
+            Set A Reminder
+          </Typography>
+          <Typography variant="body2" align="center" sx={{marginBottom:3}}>
+            Click to choose a date
+          </Typography>
         <DateTimePicker 
         disablePast
         views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -54,14 +75,15 @@ const SetReminderPage = ({user}) => {
         onError={(newError) => setError(newError)}
         slotProps={{
             textField: {
-              helperText: errorMessage,
+              helperText: errorMessage
             },
           }}
           maxDate={dayjs(maxDate)}
-        /> 
-        <br/><br/>
-        <button onClick={handleReminder}>Set Reminder</button>
-        </div>
+        />
+        {/* <ReminderConfirmation book={book} handleReminder={handleReminder}></ReminderConfirmation> */}
+
+        </Box>
+      </Container>
     )
 }
 

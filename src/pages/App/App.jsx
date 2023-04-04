@@ -40,7 +40,7 @@ export default function App() {
         <Route path="/books/featured" element={<FeaturedPage />} />
         <Route path="/books/genres/:genre" element={<GenresPage />} />
         <Route path="/books/recommended"  element={<RecommendedPage user={user}  />} />
-        <Route path="/books/:id/setreminder" element={<SetReminderPage user={user} />} />
+        <Route path="/books/:id/setreminder" element={<SetReminderPage user={user}/>} />
         <Route path="/books/:id" element={<BookDetails user={user}/>} />
         <Route path="/search" element={<Search />} />
       </Routes>
