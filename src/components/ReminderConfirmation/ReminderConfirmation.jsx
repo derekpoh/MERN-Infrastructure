@@ -4,11 +4,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
-import { Typography } from '@mui/material';
+import { Typography, Alert, Container } from '@mui/material';
 
-const ReturnConfirmation = ({ book, handleReturn }) => {
+
+const ReminderConfirmation = ({ book, handleReminder }) => {
   const [open, setOpen] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -19,7 +20,8 @@ const ReturnConfirmation = ({ book, handleReturn }) => {
   };
 
   const handleConfirm = (event) => {
-    handleReturn(event);
+    handleReminder(event);
+    setShowAlert(true);
     setOpen(false);
   };
 
@@ -27,14 +29,25 @@ const ReturnConfirmation = ({ book, handleReturn }) => {
     setOpen(false);
   };
 
+  const handleAlertClose = () => {
+    setShowAlert(false);
+  }
+
   return (
     <>
-      <Button size="large" onClick={handleClickOpen} variant="outlined" endIcon={<SettingsBackupRestoreIcon/>} color="primary">Return</Button>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={handleClickOpen}
+        size="large"
+      >
+        Set Reminder
+      </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Proceed to return?</DialogTitle>
+        <DialogTitle>Proceed to set reminder?</DialogTitle>
         <DialogContent>
           <Typography>
-            You are about to return {book?.title} by {book?.author?.name}.
+            You are about to set a reminder for "{book?.title}".
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -42,12 +55,19 @@ const ReturnConfirmation = ({ book, handleReturn }) => {
             Cancel
           </Button>
           <Button onClick={handleConfirm} color="primary" autoFocus>
-            Return
+            Set Reminder
           </Button>
         </DialogActions>
       </Dialog>
+      <Container sx={{ position: "absolute", bottom: "2rem", textAlign: "center", width: "18rem" }}>
+        {showAlert && (
+          <Alert severity="success" onClose={handleAlertClose}>
+            Reminder set successfully!
+          </Alert>
+        )}
+      </Container>
     </>
   );
 };
 
-export default ReturnConfirmation;
+export default ReminderConfirmation;

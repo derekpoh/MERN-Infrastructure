@@ -1,16 +1,15 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
-import Stack from '@mui/material/Stack';
+import { Stack, Snackbar, Alert, Button } from '@mui/material';
 import './BookDetails.css';
 import BorrowConfirmation from "../../components/BorrowConfirmation/BorrowConfirmation";
 import ReturnConfirmation from "../../components/ReturnConfirmation/ReturnConfirmation";
-import { Container, Box, Typography, Button, TextField, Grid } from '@mui/material';
-import { getUser } from "../../utilities/users-service";
+
 
 const blue = {
   500: '#007FFF',
@@ -65,6 +64,8 @@ const BookDetails = ({user, setUser}) => {
   const [book, setBook] = useState({});
   const [isBorrowed, setIsBorrowed] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
+  const [isSnackbarOpen, setIsSnackBarOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
       const fetchBook = async () => {
@@ -94,6 +95,13 @@ const BookDetails = ({user, setUser}) => {
     checkFavourite();
   }, [id]);
 
+
+
+const handleReminderClick = () => {
+  navigate(`/books/${book._id}/setreminder`, { state: {book:book}});
+  setIsSnackBarOpen(false);
+}
+
 const handleFavouriteClick = async (event) => {
   event.preventDefault();
   try {
@@ -117,64 +125,69 @@ const handleFavouriteClick = async (event) => {
   }
 };
 
-    const publishedDate = new Date(book.publishDate);
-    const formattedDate = `${publishedDate.getDate()} ${publishedDate.toLocaleString('default', { month: 'short' })} ${publishedDate.getFullYear()}`;
-    
-    const handleBorrow = async (event) => {
-      event.preventDefault();
-      try {
-          const response = await fetch(`/api/books/${id}/borrow`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        });
-        if (response.ok) {
-          const fetchBook = async () => {
-            const response = await fetch(`/api/books/${id}`);
-            const book = await response.json();
-            setBook(book);
-            const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===user?._id && !u.returnDate))
-            setIsBorrowed(!!borrowedBook);
-          };
-          fetchBook();
-          console.log("borrow ok!")
-        } else {
-          throw new Error("Failed to borrow book");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  const publishedDate = new Date(book.publishDate);
+  const formattedDate = `${publishedDate.getDate()} ${publishedDate.toLocaleString('default', { month: 'short' })} ${publishedDate.getFullYear()}`;
 
-    const handleReturn = async (event) => {
-      event.preventDefault();
-      try {
-          const response = await fetch(`/api/books/${id}/return`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        });
-        if (response.ok) {
-          const fetchBook = async () => {
-            const response = await fetch(`/api/books/${id}`);
-            const book = await response.json();
-            setBook(book);
-            const borrowedBook = book.books.find(b=>b.loanHistory.some(u=>u.loanUser.toString()===user?._id && !u.returnDate))
-            setIsBorrowed(!!borrowedBook);
-          };
-          fetchBook();
-          console.log("return ok!")
-        } else {
-          throw new Error("Failed to return book");
-        }
-      } catch (error) {
-        console.error(error);
+  const handleSnackbarClose = () => {
+    setIsSnackBarOpen(false);
+  }
+  
+  const handleBorrow = async (event) => {
+    event.preventDefault();
+    try {
+        const response = await fetch(`/api/books/${id}/borrow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      if (response.ok) {
+        const fetchBook = async () => {
+          const response = await fetch(`/api/books/${id}`);
+          const book = await response.json();
+          setBook(book);
+          const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===user?._id && !u.returnDate))
+          setIsBorrowed(!!borrowedBook);
+          setIsSnackBarOpen(true);
+        };
+        fetchBook();
+        console.log("borrow ok!")
+      } else {
+        throw new Error("Failed to borrow book");
       }
+    } catch (error) {
+      console.error(error);
     }
+  }
+
+  const handleReturn = async (event) => {
+    event.preventDefault();
+    try {
+        const response = await fetch(`/api/books/${id}/return`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      if (response.ok) {
+        const fetchBook = async () => {
+          const response = await fetch(`/api/books/${id}`);
+          const book = await response.json();
+          setBook(book);
+          const borrowedBook = book.books.find(b=>b.loanHistory.some(u=>u.loanUser.toString()===user?._id && !u.returnDate))
+          setIsBorrowed(!!borrowedBook);
+        };
+        fetchBook();
+        console.log("return ok!")
+      } else {
+        throw new Error("Failed to return book");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
     return (
     <>
@@ -255,7 +268,30 @@ const handleFavouriteClick = async (event) => {
           Genre: {book?.genre?.join(', ')}<p/>
         </div>
     <hr style={{width: '65%'}} />
-    <p/><p/>    
+    <p/><p/>
+    <Snackbar
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      open={isSnackbarOpen}
+      autoHideDuration={10000}
+      onClose={handleSnackbarClose}
+    >
+      <Alert
+          severity="info"
+          action={
+            <>
+              <Button color="secondary" size="medium" onClick={handleReminderClick}>
+                Set Reminder
+              </Button>
+              <Button color="inherit" size="medium" onClick={handleSnackbarClose}>
+                Skip
+              </Button>
+            </>
+          }
+        >
+          Set a reminder?
+        </Alert>
+    </Snackbar>
+    
     </>
     )
 }
