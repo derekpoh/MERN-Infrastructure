@@ -87,7 +87,7 @@ const BookDetails = ({user, setUser}) => {
       try {
         const response = await fetch(`/api/users/${id}/favourites`);
         const favourites = await response.json();
-        setIsFavourite(favourites.includes(id));
+        setIsFavourite(Array.isArray(favourites) && favourites.indexOf(id) !== -1);
       } catch (err) {
         console.error(err);
       }
@@ -115,6 +115,10 @@ const handleFavouriteClick = async (event) => {
     });
     if (response.ok) {
       setIsFavourite(!isFavourite); // set the state to indicate that the book has been added to favourites
+    } else if (response.status === 400) {
+      const data = await response.json();
+      // display the error message using a toast or alert
+      alert(data.message);
     }
   } catch (err) {
     console.error(err);

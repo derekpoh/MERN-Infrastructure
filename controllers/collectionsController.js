@@ -156,15 +156,21 @@ const deleteFavourite = async (req, res) => {
   }     
   };
 
-  const deleteFavouritePage = async (req, res) => {
-    res.send("delete fav page");
-  //   // try {
-  // const userId = req.params.id;
-  // const bookId = await User.findById(userId).populate("favouriteBooks").exec();
-  // console.log("deleteFav", bookId);
-  // const deleteFavouritePage = await User.findByIdAndUpdate(userId, {$pull: {"favouriteBooks" : req.params.id}}).populate({ path: 'favouriteBooks', options: { strictPopulate: false } }).exec();
+const deleteFavouritePage = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const bookId = req.body.bookId;
+    const user = await User.findById(userId);
+    const updatedFavourites = user.favouriteBooks.filter((book) => book.toString() !== bookId);
+    user.favouriteBooks = updatedFavourites;
+    const deleteFavouriteId = await User.findByIdAndUpdate(userId, {$pull: { favouriteBooks: bookId }}, { new: true });
+    res.status(200).json({ message: "Favourite book deleted successfully" });
+  } catch (error) {
+    console.log("Error deleting favourite:", error);
+    res.status(500).json({ message: "Error deleting favourite book" });
+  }
+};
 
-  };
 
 module.exports = { 
   show,
