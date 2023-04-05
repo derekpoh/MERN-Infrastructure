@@ -85,13 +85,14 @@ const BookDetails = ({user, setUser}) => {
 
 useEffect(() => {
   const checkFavourite = async () => {
+    if (user) {
     try {
       const response = await fetch(`/api/users/${user._id}/favourites`);
       const favourites = await response.json();
       setIsFavourite(favourites.showFavBooks.favouriteBooks.find(b=>b._id.toString() === id));
     } catch (err) {
       console.error(err);
-    }
+    }}
   };
   checkFavourite();
 }, [id]);

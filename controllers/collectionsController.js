@@ -44,7 +44,7 @@ const recommended = async (req,res) => {
     })
     const books = await Collection.find({
       $or: genres() 
-      })
+      }).populate("author").exec();
       res.status(200).send(books);
     } else {
       const books = await Collection.find({}).populate("author").exec();

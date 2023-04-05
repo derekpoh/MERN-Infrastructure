@@ -16,6 +16,7 @@ import ChildCareIcon from '@mui/icons-material/ChildCare';
 import OutdoorGrill from "@mui/icons-material/OutdoorGrill";
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
+import RecommendIcon from '@mui/icons-material/Recommend';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -190,6 +191,19 @@ export default function NavBar({user, setUser}) {
           </ListItemIcon>
         <ListItemText>Featured</ListItemText>
       </MenuItem>
+      { user ? (
+        <>
+        <Divider/>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/recommended"));}}>
+      <ListItemIcon>
+        <RecommendIcon fontSize="small" />
+      </ListItemIcon>
+        <ListItemText>Recommended</ListItemText>
+      </MenuItem>
+        </>
+      ): (
+      <></>
+      )}
       <Divider/>
       <MenuItem>
         <ListItemText>Genres:</ListItemText>
@@ -427,7 +441,7 @@ export default function NavBar({user, setUser}) {
                 onClick={handleLoginMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                <AccountCircle fontSize="large" />
               </IconButton>
               {renderLoginMenu}
             </>
