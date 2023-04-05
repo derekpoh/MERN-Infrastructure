@@ -58,9 +58,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const WelcomeText = styled(Typography)(({ theme}) => ({
+  fontSize: "large",
   color: "inherit",
   marginLeft: theme.spacing(5),
-  margingRight: theme.spacing(5)
+  marginRight: theme.spacing(3)
 }));
 
 export default function NavBar({user, setUser}) {
@@ -401,7 +402,7 @@ export default function NavBar({user, setUser}) {
             <>
             <Link to="/users/account/favourites">
               <IconButton size="large" color="inherit" style={{ color: "white" }}>
-                  <FavoriteBorderIcon />
+                  <FavoriteBorderIcon fontSize="large"/>
               </IconButton>
                </Link>
               <IconButton
@@ -413,7 +414,7 @@ export default function NavBar({user, setUser}) {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                <AccountCircle fontSize="large"/>
               </IconButton>
             </>
             ) : (

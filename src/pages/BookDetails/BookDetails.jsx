@@ -65,6 +65,7 @@ const BookDetails = ({user, setUser}) => {
   const [isBorrowed, setIsBorrowed] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
   const [isSnackbarOpen, setIsSnackBarOpen] = useState(false);
+  const [isFavouriteAdded, setIsFavouriteAdded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,25 +76,25 @@ const BookDetails = ({user, setUser}) => {
         setBook(book);
       const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser?.toString()===user?._id && !u.returnDate))
       setIsBorrowed(!!borrowedBook)
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchBook();
-  }, [id]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  fetchBook();
+}, [id]);
 
-  useEffect(() => {
-    const checkFavourite = async () => {
-      try {
-        const response = await fetch(`/api/users/${id}/favourites`);
-        const favourites = await response.json();
-        setIsFavourite(Array.isArray(favourites) && favourites.indexOf(id) !== -1);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    checkFavourite();
-  }, [id]);
+useEffect(() => {
+  const checkFavourite = async () => {
+    try {
+      const response = await fetch(`/api/users/${user._id}/favourites`);
+      const favourites = await response.json();
+      setIsFavourite(favourites.showFavBooks.favouriteBooks.find(b=>b._id.toString() === id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  checkFavourite();
+}, [id]);
 
 
 
@@ -113,9 +114,14 @@ const handleFavouriteClick = async (event) => {
       },
       body: JSON.stringify({_id: user._id}),
     });
-    if (response.ok) {
+    if (response.ok && method == "POST") {
       setIsFavourite(!isFavourite); // set the state to indicate that the book has been added to favourites
-    } else if (response.status === 400) {
+      setIsFavouriteAdded(true);
+    } else if (response.ok) {
+      setIsFavourite(!isFavourite);
+      setIsFavouriteAdded(false);
+    }   
+    else if (response.status === 400) {
       const data = await response.json();
       // display the error message using a toast or alert
       alert(data.message);
@@ -216,10 +222,19 @@ const handleFavouriteClick = async (event) => {
                   {isFavourite ? (
                   <>
                   <FavoriteIcon color='error' />
-                  <span className="addedText">Added!</span></>
-                  ) : <>
+                  </>
+                  ) : (
+                    <>
                   <FavoriteBorderIcon color='inherit' />
-                  </>}
+                  </>
+                  )}
+                  {isFavouriteAdded ? (
+                    <>
+                  <span className="addedText">Added!</span>
+                    </>
+                  ) : (
+                    <></>
+                  )}
               </IconButton>
               )}
               
