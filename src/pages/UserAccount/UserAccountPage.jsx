@@ -1,9 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Grid, Button, Container, Box, Typography } from "@mui/material";
+import { useEffect } from "react";
 
 
 
-const UserAccountPage = ({id}) => {
+const UserAccountPage = ({user}) => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/");
+            return;
+        }
+    }, [user, navigate])
+
     return (
         <>
         <Container maxWidth="xs">
