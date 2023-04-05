@@ -1,23 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import * as userService from "../../utilities/users-service";
-import Hidden from "@mui/material/Hidden";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Typography, Divider, ListItemText, ListItemIcon, Paper } from "@mui/material";
+import { Hidden, Badge, MenuItem, Menu, Typography, Divider, ListItemText, ListItemIcon, Paper, AppBar, Box, Toolbar, IconButton, InputBase } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import Favorite from "@mui/icons-material/Favorite";
 import OutletIcon from '@mui/icons-material/Outlet';
@@ -122,17 +113,22 @@ export default function NavBar({user, setUser}) {
     setAnchorEl(event.currentTarget);
   };
   
-  const handleMenuClose = () => {
+  const handleMenuClose = (callback) => {
     setAnchorEl(null);
-    handleMobileMenuClose();
+    if (typeof callback === "function") {
+      callback();
+    }
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
   
-  const handleMobileMenuClose = () => {
+  const handleMobileMenuClose = (callback) => {
     setMobileMoreAnchorEl(null);
+    if (typeof callback === "function") {
+      callback();
+    }
   };
   const [loginMenuAnchorEl, setLoginMenuAnchorEl] = React.useState(null);
   const isLoginMenuOpen = Boolean(loginMenuAnchorEl);
@@ -150,6 +146,7 @@ export default function NavBar({user, setUser}) {
   
   const handleLogOut = async () => {
     handleMenuClose();
+    handleMobileMenuClose();
     userService.logOut();
     setUser(null);
     navigate("/");
@@ -254,7 +251,7 @@ export default function NavBar({user, setUser}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
+      <MenuItem key="account" onClick={() => handleMenuClose(() => navigate("/users/account"))}>
         My Account
       </MenuItem>
       <Divider/>
@@ -313,8 +310,7 @@ export default function NavBar({user, setUser}) {
       onClose={handleMobileMenuClose}
     >
       { user ? ([
-      <MenuItem key="your favourites">
-        <Link to="/users/account/favourites">
+      <MenuItem key="your favourites" onClick={() => handleMobileMenuClose(() => navigate("/users/account/favourites"))}>
           <IconButton
             size="large"
             aria-label="your favourites"
@@ -325,9 +321,8 @@ export default function NavBar({user, setUser}) {
             </Badge>
           </IconButton>
         Favourites
-        </Link>
       </MenuItem>,
-      <MenuItem key="my-account" onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
+      <MenuItem key="my-account" onClick={() => handleMobileMenuClose(() => navigate("/users/account"))}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -353,13 +348,13 @@ export default function NavBar({user, setUser}) {
       ]) : ([
       <MenuItem 
         key="login"
-        onClick={() => handleLoginMenuClose(() => navigate("/users/login"))}
+        onClick={() => handleMobileMenuClose(() => navigate("/users/login"))}
       >
         Login
       </MenuItem>,
       <MenuItem
         key="register"
-        onClick={() => handleLoginMenuClose(() => navigate("/users/register"))}
+        onClick={() => handleMobileMenuClose(() => navigate("/users/register"))}
       >
         Register
       </MenuItem>

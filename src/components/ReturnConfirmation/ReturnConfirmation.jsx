@@ -4,6 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import { Typography } from '@mui/material';
 
 const ReturnConfirmation = ({ book, handleReturn }) => {
@@ -28,7 +29,7 @@ const ReturnConfirmation = ({ book, handleReturn }) => {
 
   return (
     <>
-      <Button onClick={handleClickOpen} style={{backgroundColor:"#007FFF", color: "white"}}>Return</Button>
+      <Button size="large" onClick={handleClickOpen} variant="outlined" endIcon={<SettingsBackupRestoreIcon/>} color="primary">Return</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Proceed to return?</DialogTitle>
         <DialogContent>

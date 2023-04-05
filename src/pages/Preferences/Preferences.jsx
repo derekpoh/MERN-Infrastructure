@@ -42,7 +42,7 @@ export default function Preferences({user, setUser}) {
           if (response.ok) {
             const updatedUser = await response.json();
             setUser(updatedUser);
-            navigate("/");
+            navigate("/users/account");
           } else {
             throw new Error("Failed to update preferences");
           }

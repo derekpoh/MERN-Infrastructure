@@ -5,7 +5,6 @@ import HomePage from "../HomePage/HomePage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import LoginPage from "../LoginPage/LoginPage";
 import { getUser } from '../../utilities/users-service';
-import SetReminderPage from "../Loans/SetReminderPage"
 import LoansPage from "../Loans/LoansPage";
 import RecommendedPage from "../Recommended/RecommendedPage";
 import FeaturedPage from "../Featured/FeaturedPage";
@@ -16,6 +15,7 @@ import BookDetails from "../BookDetails/BookDetails";
 import UserAccountPage from "../UserAccount/UserAccountPage";
 import Preferences from "../Preferences/Preferences";
 import Search from "../Search/Search";
+import SetReminderPage from "../Loans/SetReminderPage";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import "dayjs/locale/en-gb"
