@@ -1,23 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import * as userService from "../../utilities/users-service";
-import Hidden from "@mui/material/Hidden";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Typography } from "@mui/material";
+import { Hidden, Badge, MenuItem, Menu, Typography, Divider, ListItemText, ListItemIcon, Paper, AppBar, Box, Toolbar, IconButton, InputBase } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
+import Favorite from "@mui/icons-material/Favorite";
+import OutletIcon from '@mui/icons-material/Outlet';
+import ChildCareIcon from '@mui/icons-material/ChildCare';
+import OutdoorGrill from "@mui/icons-material/OutdoorGrill";
+import GroupsIcon from '@mui/icons-material/Groups';
+import HelpIcon from '@mui/icons-material/Help';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -71,34 +69,74 @@ export default function NavBar({user, setUser}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [searchInput, setSearchInput] = React.useState("");
-
+  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  
+  const [leftMenuAnchorEl, setLeftMenuAnchorEl] = React.useState(null);
+  const [mobileLeftMenuAnchorEl, setMobileLeftMenuAnchorEl] = React.useState(null);
+  const isLeftMenuOpen = Boolean(leftMenuAnchorEl);
+  const isMobileLeftMenuOpen = Boolean(mobileLeftMenuAnchorEl);
+
+  const [leftLoginMenuAnchorEl, setLeftLoginMenuAnchorEl] = React.useState(null);
+  const isLeftLoginMenuOpen = Boolean(setLeftLoginMenuAnchorEl); 
+
+  const handleLeftMenuOpen = (event) => {
+    setLeftMenuAnchorEl(event.currentTarget);
+  }
+
+  const handleLeftMenuClose = () => {
+    setLeftMenuAnchorEl(null);
+    handleLeftMobileMenuClose();
+  }
+  
+  const handleLeftMobileMenuOpen = (event) => {
+    setMobileLeftMenuAnchorEl(event.currentTarget);
+  };
+  
+  const handleLeftMobileMenuClose = () => {
+    setMobileLeftMenuAnchorEl(null);
+  };
+
+  const handleLeftLoginMenuOpen = (event) => {
+    setLeftLoginMenuAnchorEl(event.currentTarget);
+  };
+  
+  const handleLeftLoginMenuClose = (callback) => {
+    setLeftLoginMenuAnchorEl(null);
+    if (callback) {
+      callback();
+    }
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
+  
+  const handleMenuClose = (callback) => {
     setAnchorEl(null);
-    handleMobileMenuClose();
+    if (typeof callback === "function") {
+      callback();
+    }
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  
+  const handleMobileMenuClose = (callback) => {
+    setMobileMoreAnchorEl(null);
+    if (typeof callback === "function") {
+      callback();
+    }
+  };
   const [loginMenuAnchorEl, setLoginMenuAnchorEl] = React.useState(null);
   const isLoginMenuOpen = Boolean(loginMenuAnchorEl);
-
+  
   const handleLoginMenuOpen = (event) => {
     setLoginMenuAnchorEl(event.currentTarget);
   };
-
+  
   const handleLoginMenuClose = (callback) => {
     setLoginMenuAnchorEl(null);
     if (callback) {
@@ -108,6 +146,7 @@ export default function NavBar({user, setUser}) {
   
   const handleLogOut = async () => {
     handleMenuClose();
+    handleMobileMenuClose();
     userService.logOut();
     setUser(null);
     navigate("/");
@@ -125,6 +164,75 @@ export default function NavBar({user, setUser}) {
     navigate(`/search?q=${encodeURIComponent(searchInput)}`);
     setSearchInput("");
   }
+  const leftMenuId = 'left-menu';
+  const renderLeftMenu = (
+    <Menu
+      anchorEl={leftMenuAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      id={leftMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      open={isLeftMenuOpen}
+      onClose={handleLeftMenuClose}
+      PaperProps={{elevation:0}}
+    >
+       <Paper sx={{ width: 240, maxWidth: '100%' }}>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/featured"));}}>
+          <ListItemIcon>
+            <StarIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Featured</ListItemText>
+      </MenuItem>
+      <Divider/>
+      <MenuItem>
+        <ListItemText>Genres:</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Romance"));}}>
+          <ListItemIcon>
+            <Favorite fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Romance</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Thriller"));}}>
+          <ListItemIcon>
+            <OutletIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Thriller</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Children"));}}>
+          <ListItemIcon>
+            <ChildCareIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Children</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Cooking"));}}>
+          <ListItemIcon>
+            <OutdoorGrill fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Cooking</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Multi-Cultural"));}}>
+          <ListItemIcon>
+            <GroupsIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Multi-Cultural</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => {handleLeftMenuClose(); handleLeftLoginMenuClose(() => navigate("/books/genres/Mystery"));}}>
+          <ListItemIcon>
+            <HelpIcon fontSize="small" />
+          </ListItemIcon>
+        <ListItemText>Mystery</ListItemText>
+      </MenuItem>
+      </Paper>
+    </Menu>
+  );
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -143,7 +251,10 @@ export default function NavBar({user, setUser}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>My Account</MenuItem>
+      <MenuItem key="account" onClick={() => handleMenuClose(() => navigate("/users/account"))}>
+        My Account
+      </MenuItem>
+      <Divider/>
       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
   );
@@ -199,8 +310,7 @@ export default function NavBar({user, setUser}) {
       onClose={handleMobileMenuClose}
     >
       { user ? ([
-      <MenuItem key="your favourites">
-        <Link to="/users/account/favourites">
+      <MenuItem key="your favourites" onClick={() => handleMobileMenuClose(() => navigate("/users/account/favourites"))}>
           <IconButton
             size="large"
             aria-label="your favourites"
@@ -211,9 +321,8 @@ export default function NavBar({user, setUser}) {
             </Badge>
           </IconButton>
         Favourites
-        </Link>
       </MenuItem>,
-      <MenuItem key="my-account" onClick={() => handleLoginMenuClose(() => navigate("/users/account"))}>
+      <MenuItem key="my-account" onClick={() => handleMobileMenuClose(() => navigate("/users/account"))}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -239,13 +348,13 @@ export default function NavBar({user, setUser}) {
       ]) : ([
       <MenuItem 
         key="login"
-        onClick={() => handleLoginMenuClose(() => navigate("/users/login"))}
+        onClick={() => handleMobileMenuClose(() => navigate("/users/login"))}
       >
         Login
       </MenuItem>,
       <MenuItem
         key="register"
-        onClick={() => handleLoginMenuClose(() => navigate("/users/register"))}
+        onClick={() => handleMobileMenuClose(() => navigate("/users/register"))}
       >
         Register
       </MenuItem>
@@ -263,6 +372,7 @@ export default function NavBar({user, setUser}) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 1 }}
+            onClick={handleLeftMenuOpen}
           >
             <MenuIcon />
           </IconButton>
@@ -336,6 +446,7 @@ export default function NavBar({user, setUser}) {
           </Box>
         </Toolbar>
       </AppBar>
+      {renderLeftMenu}
       {renderMobileMenu}
       {renderMenu}
     </Box>

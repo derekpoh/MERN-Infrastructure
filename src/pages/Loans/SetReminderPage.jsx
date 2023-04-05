@@ -1,18 +1,26 @@
-import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker"
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import { useState, useMemo } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
+import { Container, Box} from "@mui/system";
+import { Typography, Button } from "@mui/material";
+import ReminderConfirmation from "../../components/ReminderConfirmation/ReminderConfirmation";
+
+
 
 
 const currentDate = dayjs(new Date());                                      //add 1 month to current date
 const maxDate = currentDate.add(1, "month");
 
 
-const SetReminderPage = ({user}) => {
+const SetReminderPage = ({props, user}) => {
 
     const [reminder, setReminder] = useState(currentDate);
     const [error, setError] = useState(null);
     const { bookId } = useParams();
+    const location = useLocation();
+    const book = location.state.book;
+
 
     const errorMessage = useMemo(() => {
         switch (error) {   
@@ -44,8 +52,27 @@ const SetReminderPage = ({user}) => {
 
 
     return (
-        <div>
-        <h1>Pick a date and time</h1>
+      <Container maxWidth="xs">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: "flex-start",
+            minHeight: '100vh',
+            paddingTop: theme => theme.spacing(4),
+          }}
+        >
+          <img src="/favicon.png" alt="Logo" width="80" />
+          <Typography component="h1" variant="h5" align="center" sx={{marginBottom:3, marginTop:1}}>
+            Set A Reminder
+          </Typography>
+          <Typography variant="h6" align="center" sx={{marginBottom:6}}>
+            for "{book.title}"
+          </Typography>
+          <Typography variant="body2" align="center" sx={{marginBottom:2}}>
+            Click to choose a date
+          </Typography>
         <DateTimePicker 
         disablePast
         views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -54,14 +81,25 @@ const SetReminderPage = ({user}) => {
         onError={(newError) => setError(newError)}
         slotProps={{
             textField: {
-              helperText: errorMessage,
+              helperText: errorMessage
             },
           }}
           maxDate={dayjs(maxDate)}
-        /> 
-        <br/><br/>
-        <button onClick={handleReminder}>Set Reminder</button>
-        </div>
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '75%', marginTop: 7 }}>
+          <ReminderConfirmation book={book} handleReminder={handleReminder}></ReminderConfirmation>
+          <Button
+            component={Link}
+            to={`/books/${book._id}`}
+            color="primary"
+            variant="outlined"
+            size="large"
+          >
+            Back
+          </Button>
+          </Box>
+        </Box>
+      </Container>
     )
 }
 
