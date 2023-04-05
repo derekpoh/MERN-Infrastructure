@@ -15,7 +15,9 @@ const RecommendedPage = ({user}) => {
         <div>
         {
             books.map((book) => 
-                <RecommendedPageCard book={book} key={book._id} />
+
+                <RecommendedPageCard book={book} key={book._id}/>
+               
             )
         }
     </div>

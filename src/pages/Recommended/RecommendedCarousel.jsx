@@ -20,7 +20,8 @@ const RecommendedCarousel = ({user}) => {
     style={{textDecoration: "underline", color:"#0091ff"} }   
     >View All</Link></h4>
     </div>
-    <div><Carousel books={books}/>
+    <div>
+        <Carousel books={books}/>
    </div>
     </>
     )
