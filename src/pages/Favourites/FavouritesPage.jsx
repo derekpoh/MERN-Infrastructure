@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const FavouritesPage = ({ user }) => {
+const FavouritesPage = ({user}) => {
 
   const [favouriteBooks, setFavouriteBooks] = useState([]);
 
@@ -18,19 +18,23 @@ const FavouritesPage = ({ user }) => {
     fetchFavourites();
   }, [user._id]);  
 
-  //   const handleDelete = async () => {
-  //     event.preventDefault();
-  //     try {
-  //     const response = await fetch(`/api/books/${user._id}/deleteFavouritePage`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   } catch (error) {
-  //     console.log('Error deleting favourite:', error);
-  //   }
-  // };
+const handleDelete = async (bookId) => {
+  try {
+    const response = await fetch(`/api/books/${user._id}/deleteFavouritePage`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ bookId }),
+    });
+    if (response.ok) {
+      setFavouriteBooks(favouriteBooks.filter((book) => book._id !== bookId));
+    }
+  } catch (error) {
+    console.log("Error deleting favourite:", error);
+  }
+};
+
     
 return (
     <div>
@@ -50,7 +54,8 @@ return (
             maxHeight: '150px',
           }}
         /> <p/>
-        <button>Delete</button>
+        <button onClick={() => handleDelete(book._id)}>Delete</button>
+
         <hr/>
       </li>
     );

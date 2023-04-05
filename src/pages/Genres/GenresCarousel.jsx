@@ -7,16 +7,15 @@ const GenresCarousel = () => {
 
     return(
         <>
-        <div className="title"></div>
-        <h2>Genres</h2>
+        <div className="title"><h2>Genres</h2></div>
         
-        <CarouselProvider
+        <CarouselProvider 
         naturalSlideWidth={55}
-        naturalSlideHeight={50}
+        naturalSlideHeight={38}
         totalSlides={genres.length}
-        visibleSlides={5}
+        visibleSlides={6}
       > 
-        <Slider >
+         <Slider style>
            {genres.map((genre, index) =>
           <Slide key={index} >
           <GenresCarouselCard genre={genre} key={index} />

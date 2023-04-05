@@ -11,23 +11,24 @@ const Carousel = ({books}) => {
       <>
       {books.length === 0 ? <h4>No borrowed books at the moment</h4> : ""}
 
-        <CarouselProvider
-        naturalSlideWidth={50}
-        naturalSlideHeight={80}
+        <CarouselProvider 
+        naturalSlideWidth={55}
+        naturalSlideHeight={75}
         totalSlides={books.length}
         visibleSlides={5}
       >   
-        <Slider >
+        <Slider>
            {books.map((book, index) =>
           <Slide key={index} >
           <CarouselCard book={book} key={book._id} />
           </Slide>
           )} 
         </Slider>
-        <div className="buttons">
-        <ButtonBack className="button">⇽</ButtonBack>
-        <ButtonNext className="button">⇾</ButtonNext>
+            <div className="buttons">
+          <ButtonBack className="button" style={{ transform: "rotateY(180deg)" }}>➤</ButtonBack>
+          <ButtonNext className="button">➤</ButtonNext>
         </div>
+
       </CarouselProvider>
       </>
         )
