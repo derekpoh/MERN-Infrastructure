@@ -17,7 +17,7 @@ const LoansCarousel = ({user}) => {
     <div className="title">
     <h2>Loans</h2>
     <h4><Link to={"/users/account/loans"}
-    style={{textDecoration: "none", color:"blue"} }   
+    style={{textDecoration: "underline", color:"#0091ff"} }   
     >View All</Link></h4>
     </div>
     <div><Carousel books={books}/></div>

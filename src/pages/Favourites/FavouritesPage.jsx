@@ -34,8 +34,7 @@ const handleDelete = async (bookId) => {
     console.log("Error deleting favourite:", error);
   }
 };
-
-    
+  
 return (
     <div>
       <h1>Your Favourites</h1>

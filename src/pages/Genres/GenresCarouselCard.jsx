@@ -1,6 +1,7 @@
 import { Image } from 'pure-react-carousel';
 import {Link} from "react-router-dom"
 
+
 const GenresCarouselCard = ({genre}) => {
 
     return (
@@ -10,7 +11,8 @@ const GenresCarouselCard = ({genre}) => {
         className='genre-image' 
         src={`${genre.image}`} 
         />  
-        </Link> 
+        </Link><p/>
+        <div className='genre-text'><h2>{genre.genre}</h2></div>
         </div>
     
     )

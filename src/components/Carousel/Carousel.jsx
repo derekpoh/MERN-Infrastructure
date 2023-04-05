@@ -1,10 +1,18 @@
 import React from 'react';
 import CarouselCard from './CarouselCard';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide} from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const Carousel = ({books}) => {
 
+    let visibleSlides = 5;
+    let naturalSlideHeight = 120;
+    let naturalSlideWidth = 80;
+    if (window.innerWidth <= 768) {
+        visibleSlides = 3;
+        naturalSlideHeight=130;
+        naturalSlideWidth=80;
+    }
 
 
     return(  
@@ -12,10 +20,10 @@ const Carousel = ({books}) => {
       {books.length === 0 ? <h4>No borrowed books at the moment</h4> : ""}
 
         <CarouselProvider 
-        naturalSlideWidth={55}
-        naturalSlideHeight={75}
+        naturalSlideWidth={naturalSlideWidth}
+        naturalSlideHeight={naturalSlideHeight}
         totalSlides={books.length}
-        visibleSlides={5}
+        visibleSlides={visibleSlides}
       >   
         <Slider>
            {books.map((book, index) =>
@@ -24,10 +32,6 @@ const Carousel = ({books}) => {
           </Slide>
           )} 
         </Slider>
-            <div className="buttons">
-          <ButtonBack className="button" style={{ transform: "rotateY(180deg)" }}>➤</ButtonBack>
-          <ButtonNext className="button">➤</ButtonNext>
-        </div>
 
       </CarouselProvider>
       </>
