@@ -22,10 +22,6 @@ const GenresCarousel = () => {
           </Slide>
           )} 
         </Slider>
-        <div className="buttons">
-        <ButtonBack className="button">⇽</ButtonBack>
-        <ButtonNext className="button">⇾</ButtonNext>
-        </div>
         </CarouselProvider>
         </>
         )

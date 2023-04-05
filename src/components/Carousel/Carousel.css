@@ -21,19 +21,6 @@
     width: 200px;
 }
 
-.buttons {
-        display: flex;
-        position: relative;
-        justify-content: space-between;
-    }
-
-.button {
-    opacity: 0.8;
-    border-radius: 50%;
-    border-color: #5959590f;
-
-    }
-
 .carousel__inner-slide {
         position: relative;
         width: 250px;
@@ -86,10 +73,6 @@
         height: auto;
         margin: 0 auto;
         left: 10px;
-    }
-
-    .buttons {
-        display: none;
     }
 
     .carousel-author {

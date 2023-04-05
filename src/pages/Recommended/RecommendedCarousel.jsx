@@ -17,10 +17,11 @@ const RecommendedCarousel = ({user}) => {
     <div className="title">
     <h2>Recommended</h2>
     <h4><Link to={"/books/recommended"}
-    style={{textDecoration: "none", color:"blue"} }   
+    style={{textDecoration: "underline", color:"#0091ff"} }   
     >View All</Link></h4>
     </div>
-    <div><Carousel books={books}/></div>
+    <div><Carousel books={books}/>
+   </div>
     </>
     )
 }

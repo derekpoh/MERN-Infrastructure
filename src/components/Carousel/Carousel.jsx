@@ -24,10 +24,6 @@ const Carousel = ({books}) => {
           </Slide>
           )} 
         </Slider>
-            <div className="buttons">
-          <ButtonBack className="button" style={{ transform: "rotateY(180deg)" }}>➤</ButtonBack>
-          <ButtonNext className="button">➤</ButtonNext>
-        </div>
 
       </CarouselProvider>
       </>
