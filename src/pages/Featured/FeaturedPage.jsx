@@ -54,10 +54,10 @@ const FeaturedPage = () => {
             Featured Books
             </Typography>
         )}  
-      <Box sx={{ marginTop: 5 }}>
+      <Box sx={{ marginTop: 5}}>
         <Grid container rowSpacing={4} columnSpacing={2} >
           {featuredBooks.map((book) => (
-            <Grid item key={book._id} xs={6} sm={6} md={3} lg={2.5} xl={2}>
+            <Grid item key={book._id} xs={6} sm={6} md={3.8} lg={3} xl={2}>
                 <BookCard book={book}></BookCard>
             </Grid>
           ))}
