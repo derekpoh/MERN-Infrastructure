@@ -16,9 +16,13 @@ const LoansCarousel = ({user}) => {
     <>
     <div className="title">
     <h2>Loans</h2>
-    <h4><Link to={"/users/account/loans"}
-    style={{textDecoration: "underline", color:"#0091ff"} }   
-    >View All</Link></h4>
+    {books.length !== 0 ? (
+        <h4><Link to={"/users/account/loans"}
+        style={{textDecoration: "underline", color:"#0091ff"} }   
+        >View All</Link></h4>
+    ) : (
+        <></>
+    )}
     </div>
     <div><Carousel books={books}/></div>
     </>

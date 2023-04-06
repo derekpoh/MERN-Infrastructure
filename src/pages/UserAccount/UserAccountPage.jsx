@@ -83,7 +83,7 @@ const UserAccountPage = ({user}) => {
         <Link to={`/users/account/favourites`}>
         <button>Favourites</button>
         </Link>
-        <Link to={`/pages/${id}/History`}>
+        <Link to={`/users/account/history`}>
         <button>History</button>
         </Link> */}
         </>

@@ -3,10 +3,15 @@ const Collection = require("../models/Collection")
 const schedule = require("node-schedule")
 const nodemailer = require("nodemailer")
 const mailgen = require("mailgen")
+const dayjs =  require("dayjs")
 
 const setReminder = async (req,res) => {
   const {user} = req.body;
+  const {book} = req.body
   const returnDate = req.body.reminder;
+  const bookId = book.books.filter((book) => book.toString() === user._id);
+
+  console.log(bookId)
 
     const transporter = nodemailer.createTransport({
         service: "outlook",
@@ -31,8 +36,8 @@ const setReminder = async (req,res) => {
                 table: {
                     data: [
                         {
-                            Book: "To Kill A Mockingbird",
-                            Description: "How to kill a bird",
+                            Book: `${book.title}`,
+                            Author: `${book.author.name}`,
                             Due_Date: "10/4/2023",
                         }
                     ]
@@ -57,14 +62,12 @@ const setReminder = async (req,res) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const reminderDate = new Date(`${year}`, `${month}`, `${dayOfMonth}`, `${hour}`, `${minute}` , 0 );
-    console.log(`${year}`, `${month}`, `${dayOfMonth}`, `${hour}`, `${minute}` , 0 )
 
-//const reminderDate = new Date(2023, 3 ,4 ,2 ,35, 0)
-console.log(reminderDate)
     schedule.scheduleJob(reminderDate, () => {
         transporter.sendMail(message);
         console.log("email sent!")
     });
+    console.log( "SCHEDULEJOB", schedule.scheduledJobs)
         
     res.status(200).send(req.body);
     };
@@ -73,34 +76,90 @@ console.log(reminderDate)
 
 
 const index = async (req, res) => {
-        try {
-          const userId = req.params.id;
-          const loanedBooks = await Book.find({
-            loanHistory: {
-              $elemMatch: {
-                loanUser: `${userId}`,
-                returnDate: null,
-              },
-            },
-            loanStatus: "Unavailable",
-          });
-      
-          const loanedBooksCollectionPromises = loanedBooks.map(async (book) => {
-            const bookCollection = await Collection.find({ books: book._id }).populate("author").exec();
-            const [bookOnLoan] = bookCollection
-            return bookOnLoan;
-          });
-      
-          const loanedBooksCollection = await Promise.all(loanedBooksCollectionPromises);
-          res.status(200).send(loanedBooksCollection);
-        } catch (error) {
-          console.error(error);
-          res.status(500).send("Server error");
+  try {
+    const userId = req.params.id;
+    const loanedBooks = await Book.find({
+      loanHistory: {
+        $elemMatch: {
+          loanUser: `${userId}`,
+          returnDate: null,
+        },
+      },
+      loanStatus: "Unavailable",
+    });
+    const loanedBookArray = []
+    await Promise.all(loanedBooks.map(async (book) => {
+      const bookCollection = await Collection.find({ books: book._id }).populate("author").exec();
+      const [destructuredBook] = bookCollection
+      const bookOnLoan = {...destructuredBook.toJSON()}
+      const bookLoanDate = book.loanHistory.pop()
+      const dueDays = dayjs(bookLoanDate.loanDate).add(21,"day").diff(dayjs(new Date()),"day")
+      bookOnLoan.dueDays = dueDays
+      loanedBookArray.push(bookOnLoan)
+    }));
+    res.status(200).send(loanedBookArray);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+};
+
+  
+const history = async (req,res) => {
+  try {
+    const userId = req.params.id;
+    const loanedBooks = await Book.find({
+      loanHistory: {
+        $elemMatch: {
+          loanUser: `${userId}`
         }
-      };
+      }
+    });
+    const transactionHistory = loanedBooks.map((loanedBook) => {
+    const loanTransaction = loanedBook.loanHistory.filter(transaction =>
+      transaction.loanUser.toString() === userId
+    );
+    return loanTransaction
+  }
+  )
+  const flattenedTransactionHistory = transactionHistory.flat();
+const loanedBookHistory = {
+  returned: [],
+  unReturned: [],
+};
+await Promise.all(flattenedTransactionHistory.map( async(transaction) => {
+  const bookInfo = await Book.find({
+    loanHistory: {
+      $elemMatch: {
+        _id: `${transaction._id}`
+      }
+    }
+  })
+  const [book] = bookInfo
+  const bookCollection = await Collection.find({ books: book._id }).populate("author").exec()
+  const [collection] = bookCollection
+  const completeBookInformation = {
+    collection: collection,
+    book: book,
+    loanHistory: transaction
+  }
+  if (transaction.returnDate === null) {
+    loanedBookHistory.unReturned.push(completeBookInformation)
+  } else {
+    loanedBookHistory.returned.push(completeBookInformation)
+  }
+}
+))
+    res.status(200).send(loanedBookHistory);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+}      
 
 
 module.exports = {
     setReminder,
-    index
+    index,
+    history,
 }

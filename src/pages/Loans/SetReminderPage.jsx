@@ -17,9 +17,10 @@ const SetReminderPage = ({props, user}) => {
 
     const [reminder, setReminder] = useState(currentDate);
     const [error, setError] = useState(null);
-    const { bookId } = useParams();
     const location = useLocation();
     const book = location.state.book;
+
+    console.log(book)
 
 
     const errorMessage = useMemo(() => {
@@ -44,9 +45,8 @@ const SetReminderPage = ({props, user}) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({reminder, user, bookId}),
+            body: JSON.stringify({reminder, user, book}),
         });
-        console.log(reminder)
         return console.log (await response.json())
     }
 

@@ -8,6 +8,7 @@ const LoansPageCard = ({book}) => {
             <h1>{book.title}</h1>
             <h2>Author: {book.author.name}</h2>
             <h3>Genre: {book.genre}</h3>
+            <p>Due in {book.dueDays} days</p>
             <p>{book.description}</p>
         </div>
         </Link>

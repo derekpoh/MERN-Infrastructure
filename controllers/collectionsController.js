@@ -2,6 +2,11 @@ const Collection = require("../models/Collection");
 const User = require("../models/User") //-> remove line 2 after creating authors controller
 require("../models/Author");
 const Book = require("../models/Book");
+const dayjs =  require("dayjs");
+const utc = require("dayjs/plugin/utc")
+const { LocationDisabledTwoTone } = require("@mui/icons-material");
+
+dayjs.extend(utc)
 
 
 const show = async (req, res) => {
@@ -67,14 +72,17 @@ const loans = async (req, res) => {
       },
       loanStatus: "Unavailable",
     });
-    const loanedBooksCollectionPromises = loanedBooks.map(async (book) => {
+    const loanedBookArray = []
+    await Promise.all(loanedBooks.map(async (book) => {
       const bookCollection = await Collection.find({ books: book._id }).populate("author").exec();
-      const [bookOnLoan] = bookCollection
-      return bookOnLoan;
-    });
-
-    const loanedBooksCollection = await Promise.all(loanedBooksCollectionPromises);
-    res.status(200).send(loanedBooksCollection);
+      const [destructuredBook] = bookCollection
+      const bookOnLoan = {...destructuredBook.toJSON()}
+      const bookLoanDate = book.loanHistory.pop()
+      const dueDays = dayjs(bookLoanDate.loanDate).add(21,"day").diff(dayjs(new Date()),"day")
+      bookOnLoan.dueDays = dueDays
+      loanedBookArray.push(bookOnLoan)
+    }));
+    res.status(200).send(loanedBookArray);
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
@@ -99,7 +107,12 @@ const borrowBook = async (req, res) => {
       $set: {"loanStatus":"Unavailable"},
       $push: {"loanHistory":[{"loanUser": userId, "loanDate": new Date(),"returnDate": ""}]}
     })
-    res.status(200).send(book);
+     const loanDate = borrowedBook.loanHistory.pop().loanDate;
+     const dueDate = dayjs(loanDate).add(21,"day").utc().local().format('DD/MM/YYYY');
+     const bookInfo = {...book.toJSON(), dueDate: dueDate};
+
+    console.log( "Book:", bookInfo)
+    res.status(200).send(bookInfo);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
