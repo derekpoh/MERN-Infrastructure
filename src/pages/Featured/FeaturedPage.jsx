@@ -21,15 +21,30 @@ const theme = createTheme(
   },
 });
 
-const FeaturedPage = () => {
+const FeaturedPage = ({user}) => {
     const [books, setBooks] = useState([]);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [favourites, setFavourites] = useState(false);
 
     useEffect(() => {
         fetch("/api/books")
         .then((response) => response.json())
         .then((data) => setBooks(data))
     }, [])
+
+    useEffect(() => {
+        const checkFavourites = async () => {
+          if (user) {
+          try {
+            const response = await fetch(`/api/users/${user._id}/favourites`);
+            const favourites = await response.json();
+            setFavourites(favourites.showFavBooks.favouriteBooks);
+          } catch (err) {
+            console.error(err);
+          }}
+        };
+        checkFavourites();
+      }, [user]);
 
     const smartAlgo = books.sort(() => 0.5 - Math.random());
     const featuredBooks = smartAlgo.slice(0,16);
@@ -79,7 +94,7 @@ const FeaturedPage = () => {
 
           {featuredBooks.map((book) => (
             <Grid item key={book._id} xs={6} sm={6} md={4} lg={3} xl={2.2} xxl={2} xxxl={1.5}>
-                <BookCard book={book}></BookCard>
+                <BookCard book={book} user={user} favourites={favourites}></BookCard>
             </Grid>
           ))}
         </Grid>

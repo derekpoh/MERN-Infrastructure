@@ -9,6 +9,9 @@ import Typography from '@mui/material/Typography';
 import { Tooltip, useMediaQuery } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Link } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 
 
 const theme = createTheme();
@@ -30,7 +33,6 @@ const CardWrapper = styled(Card)({
   margin: '0px 0px 0px 20px',
   padding: '5px',
   bottom: '100px',
-  padding: '5px',
   boxShadow: '5px 5px 5px 8px #ece9e9',
   borderRadius: '20px',
   '&:hover': {
@@ -46,13 +48,52 @@ const ContentWrapper = styled(CardContent)({
 const ActionsWrapper = styled(CardActions)({
   position: 'absolute',
   bottom: '0px',
-  paddingBottom: '10px !important',
-
+  paddingBottom: '5px !important',
 });
 
-export default function BookCard({ book }) {
-  const [expanded, setExpanded] = React.useState(false);
+
+
+export default function BookCard({ book, user, favourites }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [isFavourite, setIsFavourite] = React.useState(false);
+  const [isFavouriteAdded, setIsFavouriteAdded] = React.useState(false);
+
+
+  React.useEffect(() => {
+    if (user) {
+      const isBookFavorite = favourites.find(favBook => favBook._id.toString() === book._id);
+      setIsFavourite(!!isBookFavorite);
+    }
+  }, [book._id, favourites, user]);
+
+  
+const handleFavouriteClick = async (event) => {
+    event.preventDefault();
+    try {
+      const method = isFavourite ? 'DELETE' : 'POST';
+      const response = await fetch(`/api/books/bookcard/addFavourite`, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({_id: user._id, bookid: book._id}),
+      });
+      if (response.ok && method == "POST") {
+        setIsFavourite(!isFavourite); // set the state to indicate that the book has been added to favourites
+        setIsFavouriteAdded(true);
+      } else if (response.ok) {
+        setIsFavourite(!isFavourite);
+        setIsFavouriteAdded(false);
+      }   
+      else if (response.status === 400) {
+        const data = await response.json();
+        // display the error message using a toast or alert
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,6 +129,34 @@ export default function BookCard({ book }) {
               <InfoOutlinedIcon />
             </IconButton>
           </CustomTooltip>
+            { !user? (
+                <></>
+              ) : (
+              <IconButton
+                size="large"
+                aria-label="your favourites"
+                color='inherit'
+                title="Add Book to Your Favourites List"
+                onClick={handleFavouriteClick}
+              >
+                  {isFavourite ? (
+                  <>
+                  <FavoriteIcon color='error' />
+                  </>
+                  ) : (
+                    <>
+                  <FavoriteBorderIcon color='inherit' />
+                  </>
+                  )}
+                  {isFavouriteAdded ? (
+                    <>
+                  <span className="addedText">Added!</span>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+              </IconButton>
+              )}
           </ActionsWrapper>
           </CardWrapper>
           </Link>

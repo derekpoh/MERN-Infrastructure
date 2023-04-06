@@ -11,6 +11,7 @@ const RecommendedPage = ({user}) => {
     const navigate = useNavigate();
     const [books, setBooks] = useState([]);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [favourites, setFavourites] = useState(false);
     
     useEffect(() => {
         if (!user) {
@@ -21,6 +22,20 @@ const RecommendedPage = ({user}) => {
         .then((response) => response.json())
         .then((data) => setBooks(data))
     }, [user, navigate])
+
+    useEffect(() => {
+      const checkFavourites = async () => {
+        if (user) {
+        try {
+          const response = await fetch(`/api/users/${user._id}/favourites`);
+          const favourites = await response.json();
+          setFavourites(favourites.showFavBooks.favouriteBooks);
+        } catch (err) {
+          console.error(err);
+        }}
+      };
+      checkFavourites();
+    }, [user]);
 
     const smartAlgo = books.sort(() => 0.5 - Math.random());
     const recommendedBooks = smartAlgo.slice(0,16);
@@ -63,7 +78,7 @@ const RecommendedPage = ({user}) => {
         <Grid container rowSpacing={4} columnSpacing={2} >
           {recommendedBooks.map((book) => (
             <Grid item key={book._id} xs={6} sm={6} md={3.8} lg={3} xl={2}>
-                <BookCard book={book}></BookCard>
+                <BookCard book={book} user={user} favourites={favourites}></BookCard>
             </Grid>
           ))}
         </Grid>
