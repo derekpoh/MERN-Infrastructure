@@ -12,8 +12,7 @@ const Carousel = ({books}) => {
         visibleSlides = 3;
         naturalSlideHeight=130;
         naturalSlideWidth=80;
-    }
-
+    }    
 
     return(  
       <>
@@ -29,6 +28,7 @@ const Carousel = ({books}) => {
            {books.map((book, index) =>
           <Slide key={index} >
           <CarouselCard book={book} key={book._id} />
+          
           </Slide>
           )} 
         </Slider>

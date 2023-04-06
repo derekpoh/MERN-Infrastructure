@@ -21,7 +21,8 @@ const RecommendedCarousel = ({user}) => {
     >View All</Link></h4>
     </div>
     <div>
-        <Carousel books={books}/>
+        <Carousel books={books}/> 
+        
    </div>
     </>
     )

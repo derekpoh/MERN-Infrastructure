@@ -46,30 +46,32 @@ export default function BookCard({ book }) {
     <ThemeProvider theme={theme}>
         {!isMobile ? (
         <Link to={`/books/${book._id}`} style={{textDecoration: "none"}}>
-        <CardWrapper sx={{ maxWidth: 350, minHeight: 540, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <CardWrapper sx={{ width: 300, minHeight: 540, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <CardMedia
           component="img"
-          height="350"
+          height="320"
           image={book.image}
           alt={book.title}
           sx={{
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '350px',
-            objectFit: 'scale-down',
+            padding: '10px',
+            // top: 0,
+            // left: 0,
+            width: '200px',
+            // width: '100%',
+            height: '300px',
+            // objectFit: 'scale-down',
           }}
         />
         <ContentWrapper>
           <Typography variant="subtitle1" color="text.secondary" sx={{ fontSize: 'small' }}>
             {book.author.name}
           </Typography>
-          <Typography variant="h6" color="primary" sx={{ fontSize: 'medium' }}>
+          <Typography variant="h6" color="primary" sx={{ fontSize: 'medium', textOverflow: 'ellipsis', overflow: 'clip', whiteSpace: 'nowrap', width: '170px' }}>
             {book.title}
           </Typography>
         </ContentWrapper>
         <ActionsWrapper disableSpacing>
-          <CustomTooltip title={<Typography variant="body2">{book.description}</Typography>} placement="top-start">
+          <CustomTooltip title={<Typography variant="body">{book.description}</Typography>} placement="top-start">
             <IconButton aria-label="show book description">
               <InfoOutlinedIcon />
             </IconButton>
@@ -94,12 +96,12 @@ export default function BookCard({ book }) {
           }}
         />
         <ContentWrapper>
-          <Typography variant="subtitle1" color="text.secondary" sx={{ fontSize: 'small' }}>
+          <Typography variant="subtitle1" color="text.secondary" sx={{ fontSize: '12px' }}>
             {book.author.name}
           </Typography>
-          <Typography variant="h6" color="primary" sx={{ fontSize: 'small' }}>
+          <Typography variant="h6" color="primary" sx={{ fontSize: '16px', textOverflow: 'ellipsis', overflow: 'clip', whiteSpace: 'nowrap', width: '140px' }}>
             {book.title}
-          </Typography>
+          </Typography><br/>
         </ContentWrapper>
         </CardWrapper>
         </Link>
