@@ -19,6 +19,7 @@ import SetReminderPage from "../Loans/SetReminderPage";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import "dayjs/locale/en-gb"
+import "./reset.css"
 
 export default function App() {
   const [user,setUser] = useState(getUser());
