@@ -19,7 +19,7 @@ const Carousel = ({books}) => {
       naturalSlideWidth=80;
     } else if (window.innerWidth <= 1920) {
       visibleSlides = 5;
-      naturalSlideHeight=130;
+      naturalSlideHeight=110;
       naturalSlideWidth=80;
     } else if (window.innerWidth <= 2260) {
       visibleSlides = 6;
@@ -46,6 +46,7 @@ const Carousel = ({books}) => {
            {books.map((book, index) =>
           <Slide key={index} >
           <CarouselCard book={book} key={book._id} />
+          
           </Slide>
           )} 
         </Slider>
