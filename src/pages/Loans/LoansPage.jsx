@@ -12,8 +12,6 @@ const LoansPage = ({user}) => {
         .then((data) => setBooks(data))
     }, [user._id])
 
-    console.log(books)
-
 return(
     <div>
         <h1>Loans</h1>

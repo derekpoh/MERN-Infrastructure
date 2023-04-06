@@ -149,15 +149,17 @@ const handleFavouriteClick = async (event) => {
         },
         body: JSON.stringify(user),
       });
+      const bookBorrowed = await response.json();
+
       if (response.ok) {
         const fetchBook = async () => {
           const response = await fetch(`/api/books/${id}`);
-          const book = await response.json();
+          const bookInfo = await response.json();
+          const book = {...bookInfo, dueDate: bookBorrowed.dueDate}
           setBook(book);
           const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===user?._id && !u.returnDate))
           setIsBorrowed(!!borrowedBook);
           setIsSnackBarOpen(true);
-          console.log(book)
           if (book.fileUrl){
           const downloadLink = document.createElement("a");
           downloadLink.href = book.fileUrl; 

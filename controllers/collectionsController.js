@@ -110,8 +110,6 @@ const borrowBook = async (req, res) => {
      const loanDate = borrowedBook.loanHistory.pop().loanDate;
      const dueDate = dayjs(loanDate).add(21,"day").utc().local().format('DD/MM/YYYY');
      const bookInfo = {...book.toJSON(), dueDate: dueDate};
-
-    console.log( "Book:", bookInfo)
     res.status(200).send(bookInfo);
   } catch (error) {
     res.status(400).json({ error: error.message });

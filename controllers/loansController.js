@@ -4,14 +4,18 @@ const schedule = require("node-schedule")
 const nodemailer = require("nodemailer")
 const mailgen = require("mailgen")
 const dayjs =  require("dayjs")
+const utc = require("dayjs/plugin/utc")
+
+dayjs.extend(utc)
+
 
 const setReminder = async (req,res) => {
   const {user} = req.body;
   const {book} = req.body
-  const returnDate = req.body.reminder;
+  const {reminder} = req.body;
   const bookId = book.books.filter((book) => book.toString() === user._id);
 
-  console.log(bookId)
+  console.log( "REMINDER:", reminder)
 
     const transporter = nodemailer.createTransport({
         service: "outlook",
@@ -32,17 +36,17 @@ const setReminder = async (req,res) => {
     const response = {
             body: {
                 name: "NLB User",
-                intro: "Return your book!",
+                intro: `This is a reminder message that you have requested on ${dayjs(reminder).utc().local().format('DD/MM/YYYY')} for the following book:`,
                 table: {
                     data: [
                         {
                             Book: `${book.title}`,
                             Author: `${book.author.name}`,
-                            Due_Date: "10/4/2023",
+                            Due_Date: `${book.dueDate}`,
                         }
                     ]
                 },
-                outro: "This is an auto-generated message, please do not reply."
+                outro: "Kindly note that the book will be automatically returned on the due date. \n This is an auto-generated message, please do not reply."
             }
         };
         
@@ -55,7 +59,7 @@ const setReminder = async (req,res) => {
             html: mail, 
         };
 
-    const date = new Date(returnDate); 
+    const date = new Date(reminder); 
     const year = date.getFullYear()
     const month = date.getMonth();
     const dayOfMonth = date.getDate(); 

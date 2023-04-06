@@ -20,8 +20,6 @@ const SetReminderPage = ({props, user}) => {
     const location = useLocation();
     const book = location.state.book;
 
-    console.log(book)
-
 
     const errorMessage = useMemo(() => {
         switch (error) {   
