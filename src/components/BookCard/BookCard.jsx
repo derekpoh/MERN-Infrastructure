@@ -65,7 +65,7 @@ export default function BookCard({ book }) {
           <Typography variant="subtitle1" color="text.secondary" sx={{ fontSize: 'small' }}>
             {book.author.name}
           </Typography>
-          <Typography variant="h6" color="primary" sx={{ fontSize: 'medium', textOverflow: 'ellipsis', overflow: 'clip', whiteSpace: 'nowrap', width: '170px' }}>
+          <Typography variant="h6" color="primary" sx={{ fontSize: 'medium', textOverflow: 'ellipsis', overflow: 'clip', whiteSpace: 'nowrap', width: '210px' }}>
             {book.title}
           </Typography>
         </ContentWrapper>
