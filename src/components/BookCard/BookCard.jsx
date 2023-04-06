@@ -35,7 +35,7 @@ const ContentWrapper = styled(CardContent)({
 const ActionsWrapper = styled(CardActions)({
   position: 'absolute',
   bottom: '0px',
-  paddingBottom: '16px !important',
+  paddingBottom: '5px !important',
 });
 
 export default function BookCard({ book }) {
@@ -46,7 +46,7 @@ export default function BookCard({ book }) {
     <ThemeProvider theme={theme}>
         {!isMobile ? (
         <Link to={`/books/${book._id}`} style={{textDecoration: "none"}}>
-        <CardWrapper sx={{ maxWidth: 350, minHeight: 540, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <CardWrapper sx={{ maxWidth: 350, minHeight: 460, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <CardMedia
           component="img"
           height="350"
@@ -55,9 +55,10 @@ export default function BookCard({ book }) {
           sx={{
             top: 0,
             left: 0,
-            width: '100%',
-            height: '350px',
-            objectFit: 'scale-down',
+            width: '200px',
+            height: '300px',
+            margin: "0 auto"
+            // objectFit: 'scale-down',
           }}
         />
         <ContentWrapper>
@@ -68,8 +69,8 @@ export default function BookCard({ book }) {
             {book.title}
           </Typography>
         </ContentWrapper>
-        <ActionsWrapper disableSpacing>
-          <CustomTooltip title={<Typography variant="body2">{book.description}</Typography>} placement="top-start">
+        <ActionsWrapper disableSpacing >
+          <CustomTooltip title={<Typography variant="body">{book.description}</Typography>} placement="top-start">
             <IconButton aria-label="show book description">
               <InfoOutlinedIcon />
             </IconButton>
