@@ -5,14 +5,31 @@ import GenresCarouselCard from "./GenresCarouselCard"
 
 const GenresCarousel = () => {
 
-    let visibleSlides = 5;
-    let naturalSlideHeight = 130;
-    let naturalSlideWidth = 80;
-    if (window.innerWidth <= 600) {
-        visibleSlides = 3;
-        naturalSlideHeight=150;
-        naturalSlideWidth=80;
-    }  
+  let visibleSlides = 8;
+  let naturalSlideHeight = 120;
+  let naturalSlideWidth = 80;
+  if (window.innerWidth <= 1100) {
+      visibleSlides = 3;
+      naturalSlideHeight=130;
+      naturalSlideWidth=80;
+
+  } else if (window.innerWidth <= 1500) {
+    visibleSlides = 4;
+    naturalSlideHeight=130;
+    naturalSlideWidth=80;
+  } else if (window.innerWidth <= 1920) {
+    visibleSlides = 5;
+    naturalSlideHeight=130;
+    naturalSlideWidth=80;
+  } else if (window.innerWidth <= 2260) {
+    visibleSlides = 6;
+    naturalSlideHeight=130;
+    naturalSlideWidth=80;
+  } else {
+    visibleSlides = 8;
+    naturalSlideHeight=130;
+    naturalSlideWidth=80;
+  }
 
     return(
         <>
