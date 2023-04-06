@@ -19,7 +19,7 @@ import SetReminderPage from "../Loans/SetReminderPage";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import "dayjs/locale/en-gb"
-import "./reset.css"
+import "./App.css"
 
 export default function App() {
   const [user,setUser] = useState(getUser());
@@ -36,10 +36,10 @@ export default function App() {
         <Route path="/users/account/preferences" element={<Preferences user={user} setUser={setUser}/>} />
         <Route path="/users/account/favourites" element={<FavouritesPage user={user}/>} />
         <Route path="/users/account/loans" element={<LoansPage user={user} />} />
-        <Route path="/users/account/favourites" element={<FavouritesPage />} />
+        <Route path="/users/account/favourites" element={<FavouritesPage user={user}/>} />
         <Route path="/users/account/history" element={<HistoryPage />} />
-        <Route path="/books/featured" element={<FeaturedPage />} />
-        <Route path="/books/genres/:genre" element={<GenresPage />} />
+        <Route path="/books/featured" element={<FeaturedPage user={user}/>} />
+        <Route path="/books/genres/:genre" element={<GenresPage user={user}/>} />
         <Route path="/books/recommended"  element={<RecommendedPage user={user}  />} />
         <Route path="/books/:id/setreminder" element={<SetReminderPage user={user}/>} />
         <Route path="/books/:id" element={<BookDetails user={user}/>} />

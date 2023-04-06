@@ -157,6 +157,13 @@ const handleFavouriteClick = async (event) => {
           const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===user?._id && !u.returnDate))
           setIsBorrowed(!!borrowedBook);
           setIsSnackBarOpen(true);
+          console.log(book)
+          if (book.fileUrl){
+          const downloadLink = document.createElement("a");
+          downloadLink.href = book.fileUrl; 
+          downloadLink.download = book.title;
+          downloadLink.click();
+        }
         };
         fetchBook();
         console.log("borrow ok!")
