@@ -15,6 +15,7 @@ const CarouselCard = ({book}) => {
     <div>
     <h2 className='carousel-text'>{book.title}</h2>
     <p className='carousel-author'>{book.author.name}</p>
+    <p> Due in {book?.dueDays} days </p>
     </div>
     </div>
     </Link>

@@ -34,7 +34,7 @@ const Carousel = ({books}) => {
 
     return(  
       <>
-      {books.length === 0 ? <h4>No borrowed books at the moment</h4> : ""}
+      {books.length === 0 ? <h4>No books at the moment</h4> : ""}
 
         <CarouselProvider 
         naturalSlideWidth={naturalSlideWidth}

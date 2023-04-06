@@ -37,7 +37,7 @@ export default function App() {
         <Route path="/users/account/favourites" element={<FavouritesPage user={user}/>} />
         <Route path="/users/account/loans" element={<LoansPage user={user} />} />
         <Route path="/users/account/favourites" element={<FavouritesPage user={user}/>} />
-        <Route path="/users/account/history" element={<HistoryPage />} />
+        <Route path="/users/account/history" element={<HistoryPage user={user} />} />
         <Route path="/books/featured" element={<FeaturedPage user={user}/>} />
         <Route path="/books/genres/:genre" element={<GenresPage user={user}/>} />
         <Route path="/books/recommended"  element={<RecommendedPage user={user}  />} />
