@@ -7,16 +7,31 @@ import { useMediaQuery } from '@mui/material';
 
 const theme = createTheme();
 
-const GenresPage = () => {
+const GenresPage = ({user}) => {
   const { genre } = useParams();
   const [books, setBooks] = useState([]);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [favourites, setFavourites] = useState(false);
 
   useEffect(() => {
     fetch(`/api/books/genres/${genre}`)
       .then((response) => response.json())
       .then((data) => setBooks(data));
   }, [genre]);
+
+  useEffect(() => {
+    const checkFavourites = async () => {
+      if (user) {
+      try {
+        const response = await fetch(`/api/users/${user._id}/favourites`);
+        const favourites = await response.json();
+        setFavourites(favourites.showFavBooks.favouriteBooks);
+      } catch (err) {
+        console.error(err);
+      }}
+    };
+    checkFavourites();
+  }, [user]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,7 +71,7 @@ const GenresPage = () => {
         <Grid container rowSpacing={4} columnSpacing={2} >
           {books.map((book) => (
             <Grid item key={book._id} xs={6} sm={6} md={3.8} lg={3} xl={2}>
-                <BookCard book={book}></BookCard>
+                <BookCard book={book} user={user} favourites={favourites}></BookCard>
             </Grid>
           ))}
         </Grid>
