@@ -30,9 +30,10 @@ const CarouselCard = ({book}) => {
     <Image className='image' src={`${book.image}`} />  
     </div>
     <div>
-    <h2 className='carousel-text'>{book.title}</h2>
-    <p className='carousel-author'>{book.author.name}</p>
-    {book.dueDate ? <p className='carousel-author'> Due in {dueDays} days</p> : "" } 
+      <h2 className='carousel-text'>{book.title}</h2>
+        <p className='carousel-author' style={{ color: book.dueDays ? '#f49b36' : 'inherit' }}>
+          {book.dueDays ? `Due in ${book.dueDays} days` : book.author.name}
+        </p>
     </div>
     </div>
     </Link>

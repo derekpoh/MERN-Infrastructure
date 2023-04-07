@@ -3,10 +3,12 @@ h3 {
 }
 .aboutBook {
     text-align: center;
-    font-family: 'Poppins', sans-serif;
-    color: #0000ff;
+    font-family: 'roboto';
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #0065CC;
     padding: 40px;
-    font-size: 30px;
+    font-size: 40px;
 }
 @media (max-width: 600px) {
     .aboutBook {
@@ -89,7 +91,7 @@ h3 {
 }
 
 .borrow .e-copies {
-    color: orange;
+    color: #f49b36;
     text-decoration:underline;
 }
 

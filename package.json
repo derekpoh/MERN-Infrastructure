@@ -13,6 +13,8 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@fontsource/roboto": "^4.5.8",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
     "@mui/base": "^5.0.0-alpha.123",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.15",
@@ -23,6 +25,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mailgen": "^2.0.27",
+    "material-auto-rotating-carousel": "^3.0.2",
     "mongoose": "^7.0.3",
     "morgan": "^1.10.0",
     "node-cron": "^3.0.2",
@@ -32,6 +35,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
+    "react-slideshow-image": "^4.2.1",
+    "react-swipeable-views": "^0.14.0",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
