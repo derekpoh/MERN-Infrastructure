@@ -7,8 +7,6 @@ import { Typography, Button } from "@mui/material";
 import ReminderConfirmation from "../../components/ReminderConfirmation/ReminderConfirmation";
 
 
-
-
 const currentDate = dayjs(new Date());                                      //add 1 month to current date
 const maxDate = currentDate.add(1, "month");
 

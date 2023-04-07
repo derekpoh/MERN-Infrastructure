@@ -72,20 +72,6 @@ const UserAccountPage = ({user}) => {
         </Box>
         </Container>
 
-
-
-        {/* <Link to={"/users/account/preferences"}>
-        <button>Preferences</button>
-        </Link>
-        <Link to={`/users/account/loans`}>
-        <button>Loans</button>
-        </Link>
-        <Link to={`/users/account/favourites`}>
-        <button>Favourites</button>
-        </Link>
-        <Link to={`/users/account/history`}>
-        <button>History</button>
-        </Link> */}
         </>
     )
 }
