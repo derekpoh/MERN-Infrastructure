@@ -1,6 +1,6 @@
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
-import { useState, useMemo } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { Container, Box} from "@mui/system";
 import { Typography, Button } from "@mui/material";
@@ -16,9 +16,16 @@ const SetReminderPage = ({props, user}) => {
     const [reminder, setReminder] = useState(currentDate);
     const [error, setError] = useState(null);
     const location = useLocation();
-    const book = location.state.book;
-
-
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+      if (!user || (!location.state)) {
+        navigate("/");
+        return;
+      } 
+    }, [user, navigate])
+    
+    const book = location?.state?.book;
     const errorMessage = useMemo(() => {
         switch (error) {   
             case 'maxDate':
@@ -64,7 +71,7 @@ const SetReminderPage = ({props, user}) => {
             Set A Reminder
           </Typography>
           <Typography variant="h6" align="center" sx={{marginBottom:6}}>
-            for "{book.title}"
+            for "{book?.title}"
           </Typography>
           <Typography variant="body2" align="center" sx={{marginBottom:2}}>
             Click to choose a date
@@ -86,7 +93,7 @@ const SetReminderPage = ({props, user}) => {
           <ReminderConfirmation book={book} handleReminder={handleReminder}></ReminderConfirmation>
           <Button
             component={Link}
-            to={`/books/${book._id}`}
+            to={`/books/${book?._id}`}
             color="primary"
             variant="outlined"
             size="large"

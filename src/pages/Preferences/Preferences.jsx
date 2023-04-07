@@ -70,7 +70,7 @@ export default function Preferences({user, setUser}) {
             }}
         >
         <img src="/favicon.png" alt="Logo" width="80" />
-        <Typography variant="h4" sx={{color:"#FD9833", margin: "30px"}}>
+        <Typography variant="h4" sx={{color:"#FD9833", left:"0px", margin: "30px"}}>
             {welcomeMessage}
         </Typography>
         <Typography variant="h6" align="center">
