@@ -5,7 +5,6 @@ import BookCard from "../../components/BookCard/BookCard";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 
-// const theme = createTheme();
 const theme = createTheme(
   {
   breakpoints: {

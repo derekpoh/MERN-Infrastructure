@@ -16,6 +16,7 @@ import UserAccountPage from "../UserAccount/UserAccountPage";
 import Preferences from "../Preferences/Preferences";
 import Search from "../Search/Search";
 import SetReminderPage from "../Loans/SetReminderPage";
+import HomePageCarousel from "../HomePage/HomePageCarousel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import "dayjs/locale/en-gb"
