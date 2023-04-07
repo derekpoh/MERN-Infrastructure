@@ -12,17 +12,16 @@ const EVERYDAY = 86400000
 
 const CarouselCard = ({book}) => {
 
-    const [dueDays, setDueDays] = useState(dayjs(book.dueDate).diff(dayjs(new Date()), "day"));
+    const [dueDays, setDueDays] = useState(dayjs(book?.dueDate).diff(dayjs(new Date()), "day"));
 
     useEffect(() => {
-      const intervalId = setInterval(() => {
+      const interval = setInterval(() => {
         const daysDue = dayjs(book.dueDate).diff(dayjs(new Date()),"day");
         setDueDays(daysDue);
       }, EVERYDAY);
   
-      return () => clearInterval(intervalId);
+      return () => clearInterval(interval);
     }, [book.dueDate]);
-
 
     return (
     <Link to={`/books/${book._id}`} style={{textDecoration: "none", color:"black"} }  >

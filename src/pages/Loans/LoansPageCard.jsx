@@ -12,12 +12,12 @@ const LoansPageCard = ({book}) => {
     const [dueDays, setDueDays] = useState(dayjs(book.dueDate).diff(dayjs(new Date()), "day"));
 
     useEffect(() => {
-      const intervalId = setInterval(() => {
+      const interval = setInterval(() => {
         const daysDue = dayjs(book.dueDate).diff(dayjs(new Date()),"day");
         setDueDays(daysDue);
       }, EVERYDAY);
   
-      return () => clearInterval(intervalId);
+      return () => clearInterval(interval);
     }, [book.dueDate]);
 
 
