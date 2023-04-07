@@ -31,7 +31,7 @@ const GenresPage = ({user}) => {
       }}
     };
     checkFavourites();
-  }, [user]);
+  }, [user, genre]);
 
   return (
     <ThemeProvider theme={theme}>
