@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer")
 const mailgen = require("mailgen")
 const dayjs =  require("dayjs")
 const utc = require("dayjs/plugin/utc")
+const cron = require('node-cron')
 
 dayjs.extend(utc)
 
@@ -13,9 +14,7 @@ const setReminder = async (req,res) => {
   const {user} = req.body;
   const {book} = req.body
   const {reminder} = req.body;
-  const bookId = book.books.filter((book) => book.toString() === user._id);
 
-  console.log( "REMINDER:", reminder)
 
     const transporter = nodemailer.createTransport({
         service: "outlook",
@@ -59,15 +58,7 @@ const setReminder = async (req,res) => {
             html: mail, 
         };
 
-    const date = new Date(reminder); 
-    const year = date.getFullYear()
-    const month = date.getMonth();
-    const dayOfMonth = date.getDate(); 
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    const reminderDate = new Date(`${year}`, `${month}`, `${dayOfMonth}`, `${hour}`, `${minute}` , 0 );
-
-    schedule.scheduleJob(reminderDate, () => {
+    schedule.scheduleJob(reminder, () => {
         transporter.sendMail(message);
         console.log("email sent!")
     });
@@ -95,10 +86,12 @@ const index = async (req, res) => {
     await Promise.all(loanedBooks.map(async (book) => {
       const bookCollection = await Collection.find({ books: book._id }).populate("author").exec();
       const [destructuredBook] = bookCollection
-      const bookOnLoan = {...destructuredBook.toJSON()}
       const bookLoanDate = book.loanHistory.pop()
-      const dueDays = dayjs(bookLoanDate.loanDate).add(21,"day").diff(dayjs(new Date()),"day")
-      bookOnLoan.dueDays = dueDays
+      const dueDate = dayjs(bookLoanDate.loanDate).add(21,"day").utc().local()
+      const bookOnLoan = {
+        ...destructuredBook.toJSON(),
+        dueDate: dueDate
+      }
       loanedBookArray.push(bookOnLoan)
     }));
     res.status(200).send(loanedBookArray);
@@ -160,6 +153,25 @@ await Promise.all(flattenedTransactionHistory.map( async(transaction) => {
     res.status(500).send("Server error");
   }
 }      
+
+
+cron.schedule('0 * * * *', async () => {
+  try {
+    const books = await Book.find({ loanStatus: 'Unavailable' }).exec();
+    const today = new Date();
+    const overdueBooks = books.filter((book) => {
+      const loanDate = new Date(book.loanHistory[book.loanHistory.length - 1].loanDate);
+      return loanDate < today;
+    });
+    overdueBooks.forEach(async (book) => {
+      book.loanStatus = 'Available';
+      book.loanHistory[book.loanHistory.length - 1].returnDate = new Date();
+      await book.save();
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 
 module.exports = {

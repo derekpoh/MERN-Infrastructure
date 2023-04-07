@@ -76,10 +76,12 @@ const loans = async (req, res) => {
     await Promise.all(loanedBooks.map(async (book) => {
       const bookCollection = await Collection.find({ books: book._id }).populate("author").exec();
       const [destructuredBook] = bookCollection
-      const bookOnLoan = {...destructuredBook.toJSON()}
       const bookLoanDate = book.loanHistory.pop()
-      const dueDays = dayjs(bookLoanDate.loanDate).add(21,"day").diff(dayjs(new Date()),"day")
-      bookOnLoan.dueDays = dueDays
+      const dueDate = dayjs(bookLoanDate.loanDate).add(21,"day").utc().local()
+      const bookOnLoan = {
+        ...destructuredBook.toJSON(),
+        dueDate: dueDate
+      }
       loanedBookArray.push(bookOnLoan)
     }));
     res.status(200).send(loanedBookArray);
@@ -109,7 +111,10 @@ const borrowBook = async (req, res) => {
     })
      const loanDate = borrowedBook.loanHistory.pop().loanDate;
      const dueDate = dayjs(loanDate).add(21,"day").utc().local().format('DD/MM/YYYY');
-     const bookInfo = {...book.toJSON(), dueDate: dueDate};
+     const bookInfo = 
+     {...book.toJSON(), 
+      dueDate: dueDate
+    };
     res.status(200).send(bookInfo);
   } catch (error) {
     res.status(400).json({ error: error.message });

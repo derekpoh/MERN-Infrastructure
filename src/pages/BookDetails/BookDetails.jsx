@@ -155,7 +155,7 @@ const handleFavouriteClick = async (event) => {
         const fetchBook = async () => {
           const response = await fetch(`/api/books/${id}`);
           const bookInfo = await response.json();
-          const book = {...bookInfo, dueDate: bookBorrowed.dueDate}
+          const book = {...bookInfo, dueDate: bookBorrowed.dueDate, dueDateFull: bookBorrowed.dueDateFull}
           setBook(book);
           const borrowedBook = book.books.find(b=>b.loanHistory.find(u=>u.loanUser.toString()===user?._id && !u.returnDate))
           setIsBorrowed(!!borrowedBook);
