@@ -90,7 +90,6 @@ const FeaturedPage = ({user}) => {
           columnSpacing={isMobile ? 0 : 16}
         >
 
-
           {featuredBooks.map((book) => (
             <Grid item key={book._id} xs={6} sm={6} md={4} lg={3} xl={2.2} xxl={2} xxxl={1.5}>
                 <BookCard book={book} user={user} favourites={favourites}></BookCard>

@@ -207,22 +207,14 @@ const handleFavouriteClick = async (event) => {
 
     return (
     <>
-        <div className="aboutBook">About this book</div>
-        <img src={book.image} alt="Book cover image" style=
-          {{
-            display: 'block',
-            margin: 'auto',
-            maxWidth: '250px',
-            maxHeight: '350px',
-          }}
-        />
-        <div className="aboutTitle">{book.title}</div>
-        <div className="aboutAuthor">
-          <span className="authorName">{book?.author?.name}</span>
+    
+        <img className="book-image" src={book.image} alt="Book cover image" />
+        
               { !user? (
                 <></>
               ) : (
               <IconButton
+                className="favourite-button"
                 size="large"
                 aria-label="your favourites"
                 color='inherit'
@@ -247,16 +239,39 @@ const handleFavouriteClick = async (event) => {
                   )}
               </IconButton>
               )}
-              
+
+        
+        <div className="aboutTitle">{book.title}</div>
+        <div className="authorName">{book?.author?.name}</div>
+        <h3 className="e-copies">E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3> 
+            
+    <hr className="hr-line" />      
+
+        <div className="summary">
+          <h3>Summary</h3>
+          {book.description} <p/>
         </div>
-    <hr style={{width: '65%'}} />
-    <div className="borrow">   
-      <h3 className="e-copies">E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3> 
+        <hr className="hr-line" />      
+
+        <div className="summary">
+          <h3>Details</h3>
+          Publisher: {book.publisher}<p/>
+          Published: {formattedDate}<p/>
+          Language: {book.language}<p/>
+          ISBN: {book.isbn}<p/>
+          Category: {book.category}<p/>
+          Genre: {book?.genre?.join(', ')}<p/>
+        </div>
+
+
+      
+      <div className="borrow">   
+      {/* <h3 className="e-copies">E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3>  */}
 
         { !user ? (
           <></>
         ) : (
-          <Stack spacing={2} direction="row">
+          <Stack spacing={2} direction="row" className="borrow-button">
             { isBorrowed ? (
               <>
               <ReturnConfirmation book={book} handleReturn={handleReturn}/>
@@ -275,24 +290,8 @@ const handleFavouriteClick = async (event) => {
         )}
      </div>
 
-    <hr style={{width: '65%'}} />
+   
 
-        <div className="summary">
-          <h3>Summary</h3>
-          {book.description} <p/>
-        </div>
-    <hr style={{width: '65%'}} />
-
-        <div className="summary">
-          <h3>Details</h3>
-          Publisher: {book.publisher}<p/>
-          Published: {formattedDate}<p/>
-          Language: {book.language}<p/>
-          ISBN: {book.isbn}<p/>
-          Category: {book.category}<p/>
-          Genre: {book?.genre?.join(', ')}<p/>
-        </div>
-    <hr style={{width: '65%'}} />
     <p/><p/>
     <Snackbar
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

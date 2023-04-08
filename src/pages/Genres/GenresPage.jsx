@@ -5,7 +5,20 @@ import BookCard from "../../components/BookCard/BookCard";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 
-const theme = createTheme();
+const theme = createTheme(
+  {
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 800,
+      lg: 1000,
+      xl: 1380,
+      xxl: 1900,
+      xxxl: 2200
+    },
+  },
+});
 
 const GenresPage = ({user}) => {
   const { genre } = useParams();
@@ -39,13 +52,14 @@ const GenresPage = ({user}) => {
         <Typography
         variant="h4"
         sx={{
-            marginTop: 3,
+            marginTop: 8,
             textTransform: 'uppercase',
             textAlign: 'center',
             letterSpacing: '0.1em',
             color: '#0065CC',
-            marginBottom: '1.5em',
-            textShadow: '1px 1px #eee'
+            marginBottom: '4.5em',
+            textShadow: '1px 1px #eee',
+         
         }}
         >
         Genre: {genre}
@@ -55,22 +69,26 @@ const GenresPage = ({user}) => {
             <Typography
             variant="h6"
             sx={{
-                marginTop: 3,
+                marginTop: 4,
                 textTransform: 'uppercase',
                 textAlign: 'center',
                 letterSpacing: '0.1em',
                 color: '#0065CC',
-                marginBottom: '1.5em',
+                marginBottom: '6em',
                 textShadow: '1px 1px #eee'
             }}
             >
             Genre: {genre}
             </Typography>
         )}  
-      <Box sx={{ marginTop: 5 }}>
-        <Grid container rowSpacing={4} columnSpacing={2} >
+      <Box sx={{ marginTop: 15}}>
+        <Grid
+          container
+          rowSpacing={isMobile ? 7 : 16}
+          columnSpacing={isMobile ? 0 : 16}
+        >
           {books.map((book) => (
-            <Grid item key={book._id} xs={6} sm={6} md={3.8} lg={3} xl={2}>
+            <Grid item key={book._id} xs={6} sm={6} md={4} lg={3} xl={2.2} xxl={2} xxxl={1.5}>
                 <BookCard book={book} user={user} favourites={favourites}></BookCard>
             </Grid>
           ))}
