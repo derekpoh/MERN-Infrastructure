@@ -92,7 +92,7 @@ return (
 
  ) : (
 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'  }}>
-  <img src="/sadcat.png" alt="Sad cat" style={{  width: "50%", height: "auto", marginBottom: '2rem' }} />
+  <img src="/sadcat.png" alt="Sad cat" style={{  width: "300px", height: "300px", marginBottom: '2rem', borderRadius: '50%' }} />
   <Typography variant="h6">You have no favourites yet. Add some?</Typography>
 </Box>
 

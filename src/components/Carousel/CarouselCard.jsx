@@ -32,9 +32,9 @@ const CarouselCard = ({book}) => {
     </div>
     <div>
       <h2 className='carousel-text'>{book.title}</h2>
-        <p className='carousel-author' style={{ color: book.dueDate ? '#f49b36' : 'inherit' }}>
-          {book.dueDate ? `Due in ${dueDays} days` : book.author.name}
-        </p>
+      <p className='carousel-author' style={{ color: book.dueDate ? '#f49b36' : 'inherit' }}>
+        {book.dueDate ? `Due in ${dueDays} days` : book.author.name}
+      </p>
     </div>
     </div>
     </Link>

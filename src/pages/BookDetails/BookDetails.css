@@ -1,64 +1,68 @@
-h3 {
-    padding: 0px 0px 10px 0px;
+.book-image {
+    position: absolute;
+    width: 230px;
+    height: 350px;
+    border-radius: 5px;
+    margin-top: 105px;
+    margin-left: 220px;
 }
-.aboutBook {
-    text-align: center;
-    font-family: 'roboto';
+
+.aboutTitle {
+    position: relative;
+    margin-top: 40px;
+    left: 510px;
     text-transform: uppercase;
+
     letter-spacing: 0.1em;
     color: #0065CC;
-    padding: 40px;
+    text-shadow: 1px 1px #eee;
+    font-family: 'Roboto';
     font-size: 40px;
-}
-@media (max-width: 600px) {
-    .aboutBook {
-        font-size: 100%;
-    }
-}
-.aboutTitle {
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    color: #595959;
-    padding: 40px 0px 20px 0px;
-    font-size: 100%;
-    font-weight: bold;
-    width: 90%;
-    margin: 0 auto;
+    width: 660px;
+    
 }
 
-.aboutAuthor {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 60%;
-    width: 90%;
-    margin: 0 auto;
-    font-size: 90%;
+.authorName {
+    position: relative;
+    margin-top: 20px;
+    margin-left: 510px;
+    text-align: justify;
+    letter-spacing: 0.05em;
+    color: #737373;
+    font-family: 'Roboto';
+    font-size: 20px;
+    padding: 0px 0px 20px 0px;
 }
 
-.aboutAuthor span {
+.addedText {
     flex-grow: 1;
     text-align: center;
     font-family: 'Poppins', sans-serif;
     color: #737373;
-    
+
 }
 
-.aboutAuthor a {
-    margin-left: -3rem;   
+.favourite-button {
+    position: relative;
+    top: 95px;
+    left:1170px;
 }
 
-@media (max-width: 600px) {
-    .aboutAuthor {
-        display: wrap;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 100%
-    }
+.e-copies {
+    position: absolute;
+    left: 255px;
+    top: 540px;
+    font-size: 15px;
+    font-family: 'poppins';
+    color: #f49b36;
+    text-decoration: underline;
+}
 
-    .authorName {
-        padding-left: 60px;
-    }
+.borrow-button {
+    position: absolute;
+    left: 266px;
+    top: 600px;
+
 }
 
 .addedText {
@@ -67,56 +71,115 @@ h3 {
     left: 45px;
     transform: translateY(-50%);
     font-size: 12px;
-    color: #f44336;
-}
-
-@media (max-width: 600px) {
-    .addedText {
-        display: none;
-    }
-}
-
-.borrow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 70%;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    margin: 20px auto;
-    max-width: 800px;
-
-}
-
-.borrow .e-copies {
-    color: #f49b36;
-    text-decoration:underline;
-}
-
-@media (max-width: 600px) {
-    .borrow {
-        width: 75%;
-        margin: 20px auto;
-        font-size: 50%;
-    }
+    color: #737373;
 }
 
 .summary {
     text-align: justify;
-    width: 70%;
+    width: 60%;
     font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    margin: 50px auto;
-    max-width: 800px;
+    font-size: 13px;
+    padding: 20px 0px 20px 0px;
+    margin-left: 510px;
+    max-width: 650px;
     color: #595959;
+    line-height: 30px;
 }
 
-@media (max-width: 600px) {
-    .summary {
-        width: 75%;
-        font-size: 68%;
-        margin: 40px auto;
-    }
+.hr-line {
+    width: 700px;
+    margin-left: 510px;
 }
+
+
+
+
+@media only screen and (max-width: 600px) {
+
+    .book-image {
+        margin: 0 auto;
+        margin-top: 65px;
+        width: 160px;
+        height: 260px;
+        left: 0;
+        right: 0;
+    }
+
+    .aboutTitle {
+        text-align: left;
+        position: relative;
+        margin: 0 auto;
+        width: 85%;
+        top: 410px;
+        left: 0;
+        right: 0;
+        font-size: 18px;
+    }
+
+    .authorName {
+        position: relative;
+        margin: 0 auto;
+        text-align: left;
+        width: 85%; 
+        margin-top: 430px;
+        font-size: 14px;
+        display: block;
+    }
+
+    .favourite-button {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        text-align: left;
+        right: 0;
+        margin: 0 auto;
+    }
+
+    .addedText {
+        display: none;
+    }
+
+    .summary {
+        position: relative;
+        margin: 0 auto;
+        text-align: justify;
+        width: 85%;
+        left: 0;
+        right: 0;
+        margin-top: 0px;
+        font-size: 9px;
+        line-height: 20px;
+           
+    }
+
+   .hr-line {
+    position: relative;
+    margin: 0 auto;
+    left:  0;
+    right: 0;
+    margin-top: 0px;
+    width: 90%;
+    } 
+
+    .e-copies {
+        position: absolute;
+        margin: 0 auto;
+        left: 0px;
+        right: 0;
+        width: 80%;
+        font-size: 10px;
+        top: 415px;
+        text-align: center;
+    }
+     .borrow-button {
+        /* position: relative; */
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: 440px;
+        justify-content: center;
+    }
+
+
+}
+
