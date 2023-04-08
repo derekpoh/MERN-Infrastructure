@@ -8,7 +8,7 @@ const HomePage = ({user}) => {
 
     return(
         <>
-        <HomePageCarousel /><p/>
+        <HomePageCarousel />
         {user ? <LoansCarousel user={user} /> : ""} <br/>
         {user ? <RecommendedCarousel user={user} /> : <FeaturedCarousel />} <br/>
         <GenresCarousel />
