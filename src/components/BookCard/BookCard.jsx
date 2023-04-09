@@ -53,17 +53,22 @@ const ActionsWrapper = styled(CardActions)({
 
 
 
-export default function BookCard({ book, user, favourites }) {
+export default function BookCard({ book, user, favourites=[] }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isFavourite, setIsFavourite] = React.useState(false);
   const [isFavouriteAdded, setIsFavouriteAdded] = React.useState(false);
 
 
   React.useEffect(() => {
-    if (user) {
+    const setFav = async () => {
+    if (favourites) {
+      try {
       const isBookFavorite = favourites.find(favBook => favBook._id.toString() === book._id);
       setIsFavourite(!!isBookFavorite);
-    }
+    } catch (err) {
+      console.error(err);
+    }}};
+    setFav();
   }, [book._id, favourites, user]);
 
   
