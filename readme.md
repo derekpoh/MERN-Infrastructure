@@ -3,8 +3,8 @@
 ## Technologies & Tools used
   - MongoDB, Mongoose
   - Express
-  - Node
   - React
+  - Node
   - Material UI
   - Github
 
