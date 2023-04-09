@@ -159,7 +159,7 @@ cron.schedule('* * * * *', async () => {
     const today = new Date();
     const overdueBooks = books.filter((book) => {
       const loanDate = new Date(book.loanHistory[book.loanHistory.length - 1].loanDate);
-      const dueDate = dayjs(loanDate).add(21,"day").utc().local()
+      const dueDate = new Date(dayjs(loanDate).add(21,"day").utc().local());
       return dueDate < today;
     });
     overdueBooks.forEach(async (book) => {
