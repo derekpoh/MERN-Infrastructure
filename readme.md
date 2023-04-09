@@ -51,6 +51,7 @@ The application can be found at: https://national-library-board-e-book-loan.onre
 
 ## Project Architecture
 To emulate the application, we navigated around NLB Mobile to understand the services and utilities it offered. After handpicking several important features of the application, we crafted our data model and wireframe to base our project upon.
+<br/>
 ![wireframe1](https://i.ibb.co/kcPsfvh/wireframe2.jpg)
 ![wireframe2](https://i.ibb.co/sWBnjNC/wireframe3.jpg)
 
