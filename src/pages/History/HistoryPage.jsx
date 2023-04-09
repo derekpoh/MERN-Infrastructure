@@ -3,6 +3,7 @@ import HistoryPageCard from "./HistoryPageCard";
 import { Container, Grid, Typography } from "@mui/material";
 import { useMediaQuery } from '@mui/material';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme(
   {
@@ -15,6 +16,7 @@ const theme = createTheme(
 });
 
 const HistoryPage = ({user}) => {
+  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [books, setBooks] = useState({
     returned: [],
@@ -22,10 +24,14 @@ const HistoryPage = ({user}) => {
   });
 
   useEffect(() => {
+      if (!user) {
+        navigate("/");
+        return;
+        }  
     fetch(`/api/loans/${user._id}/history`)
       .then((response) => response.json())
       .then((data) => setBooks(data))
-  }, [user._id])
+  }, [user, navigate])
 
   const { returned, unReturned } = books;
   const sortedUnReturned = unReturned.sort((a, b) => new Date(a.loanHistory.loanDate) - new Date(b.loanHistory.loanDate));
@@ -47,9 +53,13 @@ const HistoryPage = ({user}) => {
         <Grid item xs={12} md={6}>
         <Typography variant="h5" sx={{ marginLeft: '12%', marginBottom: 3, fontSize: "22px", fontFamily: "roboto", color:"#CB0000", textTransform:'uppercase', textDecoration: 'underline' }}>On Loan</Typography>
 
-          {sortedUnReturned.map((bookInfo, index) => 
-            <HistoryPageCard bookInfo={bookInfo} key={index} />
-          )}
+        {sortedUnReturned.length > 0 ? (
+          sortedUnReturned.map((bookInfo, index) => 
+        <HistoryPageCard bookInfo={bookInfo} key={index} />
+        )
+      ) : (
+      <Typography variant="body1" sx={{ marginLeft: '12%', marginTop: '20px', marginBottom: '50px', fontSize: '15px', fontFamily:'Poppins', width:"500px" }}>You have no borrowed books at the moment.</Typography>
+      )}
 
         </Grid>
     </Grid>
@@ -71,14 +81,18 @@ const HistoryPage = ({user}) => {
             letterSpacing: '0.1em',
             color: '#0065CC',
             marginBottom: '2.5em',
-            textShadow: '1px 1px #eee', fontSize:'30px' }}>Loan History</Typography>
+            textShadow: '1px 1px #eee', fontSize: '30px' }}>Loan History</Typography>
       <Grid container spacing={6}>
         <Grid item xs={12} md={6}>
-        <Typography variant="h5" sx={{ marginTop: -3, marginBottom: 2, fontSize: "17px", fontFamily: "roboto", color:"#CB0000", textDecoration: 'underline', textTransform: 'uppercase'}}>On Loan:</Typography>
+        <Typography variant="h5" sx={{ marginTop: -3, marginBottom: 2, fontSize: "16px", fontFamily: "roboto", color:"#CB0000", textDecoration: 'underline', textTransform: 'uppercase'}}>On Loan:</Typography>
 
-          {sortedUnReturned.map((bookInfo, index) => 
-            <HistoryPageCard bookInfo={bookInfo} key={index} />
-          )}
+        {sortedUnReturned.length > 0 ? (
+          sortedUnReturned.map((bookInfo, index) => 
+        <HistoryPageCard bookInfo={bookInfo} key={index} />
+        )
+      ) : (
+      <Typography variant="body1" sx={{ marginTop: '20px', marginBottom: '20px', fontSize: '13px', fontFamily:'Poppins' }}>You have no borrowed books at the moment.</Typography>
+      )}
 
         </Grid>
     </Grid>

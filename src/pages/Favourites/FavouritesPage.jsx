@@ -3,6 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import BookCard from "../../components/BookCard/BookCard";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme(
   {
@@ -20,10 +21,15 @@ const theme = createTheme(
 });
 
 const FavouritesPage = ({user}) => {
+  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [favourites, setFavourites] = useState(false);
 
   useEffect(() => {
+    if (!user) {
+      navigate("/");
+      return;
+    }
     const fetchFavourites = async () => {
       try {
         const response = await fetch(`/api/users/${user._id}/favourites`);
@@ -35,7 +41,7 @@ const FavouritesPage = ({user}) => {
     };
 
     fetchFavourites();
-  }, [user._id]);  
+  }, [user, navigate]);  
 
 return (
   <ThemeProvider theme={theme}>
@@ -66,7 +72,7 @@ return (
           letterSpacing: '0.1em',
           color: '#0065CC',
           marginBottom: '6em',
-          textShadow: '1px 1px #eee'
+          textShadow: '1px 1px #eee',
         }}
       >
       Your Favourites
@@ -92,8 +98,8 @@ return (
 
  ) : (
 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'  }}>
-  <img src="/sadcat.png" alt="Sad cat" style={{  width: "300px", height: "300px", marginBottom: '2rem', borderRadius: '50%' }} />
-  <Typography variant="h6">You have no favourites yet. Add some?</Typography>
+  <img src="/sadcat.png" alt="Sad cat" style={{  marginTop: "-120px", width: "300px", height: "300px", marginBottom: '2rem', borderRadius: '50%' }} />
+  <Typography variant="h6" fontSize="15px" fontFamily="poppins" fontWeight="bold" color="#595959">You have no favourites yet. Add some?</Typography>
 </Box>
 
  )}

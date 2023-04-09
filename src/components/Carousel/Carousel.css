@@ -68,7 +68,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-h4 {
+.h4-carousel {
     position: relative;
     left: 50px;
     margin-right: 50px;
@@ -91,27 +91,27 @@ h4 {
 
 @media screen and (max-width: 600px) {
     .title {
-        font-size: 10px;
+        font-size: 14px;
         padding: 0px;
     }
-    h4 {
+    .h4-carousel {
         font-size: 11px;
     }
     .image {
-        height: 115px;
-        width: 80px;
-        padding: 10px;
+        height: 160px;
+        width: 100px;
+        padding: 5px;
     }
     .genre-image {
-        height: 95px;
-        width: 95px;
-        padding: 0px;
+        height: 100px;
+        width: 100px;
+        padding: 1px;
         top: 20px;
     }
 
     .carousel__inner-slide {
-        width: 100px;
-        height: 178px;
+        width: 110px;
+        height: 235px;
         margin: 0 auto;
         left: 10px;
         text-overflow: ellipsis;
@@ -120,7 +120,7 @@ h4 {
     }
 
     .carousel-text {
-        font-size: 7.5px;
+        font-size: 14px;
         padding: 2px;
         width: 80px;
         justify-content: center;
@@ -129,9 +129,15 @@ h4 {
         text-overflow: ellipsis;
     }
 
-    .carousel-author, .genre-text {
-        font-size: 6px;
-        padding: 2px;
+    .carousel-author {
+        font-size: 11px;
+        padding: 5px;
         top: 15px;
     }
+    .genre-text {
+        font-size: 10px;
+        padding: 5px;
+        top: 15px;
+    }
+
 }
