@@ -95,7 +95,7 @@
         padding: 0px;
     }
     .h4-carousel {
-        font-size: 11px;
+        font-size: 12px;
     }
     .image {
         height: 160px;
@@ -120,8 +120,8 @@
     }
 
     .carousel-text {
-        font-size: 14px;
-        padding: 2px;
+        font-size: 10.5px;
+        margin-top: 10px;
         width: 80px;
         justify-content: center;
         align-items: center;
@@ -130,12 +130,12 @@
     }
 
     .carousel-author {
-        font-size: 11px;
+        font-size: 9.5px;
         padding: 5px;
         top: 15px;
     }
     .genre-text {
-        font-size: 10px;
+        font-size: 9px;
         padding: 5px;
         top: 15px;
     }
