@@ -15,11 +15,15 @@ export default function Preferences({user, setUser}) {
     const navigate = useNavigate();
 
     useEffect(() => {
+       if (!user) {
+        navigate("/");
+        return;
+    }
         const fetchGenres = async () => {
-            setSelectedGenres(user.preferredGenres);
+            setSelectedGenres(user?.preferredGenres);
         };
         fetchGenres();
-    }, []);
+    }, [user, navigate]);
 
     const handleGenreChange = (genre) => {
         if (selectedGenres.includes(genre)) {
@@ -37,7 +41,7 @@ export default function Preferences({user, setUser}) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({userId: user._id, preferredGenres: selectedGenres}),
+            body: JSON.stringify({userId: user?._id, preferredGenres: selectedGenres}),
           });
           if (response.ok) {
             const updatedUser = await response.json();
@@ -55,7 +59,7 @@ export default function Preferences({user, setUser}) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
-    const welcomeMessage = `Welcome, ${capitalize(user.name)}!`;
+    const welcomeMessage = user ? `Welcome, ${capitalize(user.name)}!` : "";
 
     return (
         <Container maxWidth="xs">
