@@ -11,7 +11,7 @@ const GenresCarousel = () => {
   if (window.innerWidth <= 1100) {
       visibleSlides = 3;
       naturalSlideHeight=130;
-      naturalSlideWidth=60;
+      naturalSlideWidth=55;
 
   } else if (window.innerWidth <= 1500) {
     visibleSlides = 4;

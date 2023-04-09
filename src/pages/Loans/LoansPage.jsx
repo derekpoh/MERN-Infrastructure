@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import LoansPageCard from "./LoansPageCard";
+import { useNavigate } from "react-router-dom";
 import { Container, Typography, Grid } from "@mui/material";
 import { useMediaQuery } from '@mui/material';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
@@ -15,14 +16,19 @@ const theme = createTheme(
 });
 
 const LoansPage = ({user}) => {
+    const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
+        if (!user) {
+            navigate("/");
+            return;
+        }
         fetch(`/api/loans/${user._id}`)
         .then((response) => response.json())
         .then((data) => setBooks(data))
-    }, [user._id])
+      }, [user, navigate])
 
 return(
   <><ThemeProvider theme={theme}>
@@ -60,7 +66,7 @@ return(
           {books.length === 0 ? (<h4>You have no borrowed books at the moment</h4>):(
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Typography variant="h5" sx={{ marginBottom: 2, fontSize: "17px", fontFamily: "roboto", color:"#CB0000", textDecoration: 'underline', textTransform: 'uppercase'}}>On Loan:</Typography>
+        <Typography variant="h5" sx={{ marginBottom: 2, fontSize: "16px", fontFamily: "roboto", color:"#CB0000", textDecoration: 'underline', textTransform: 'uppercase'}}>On Loan:</Typography>
 
         {books.map((book) => 
           <LoansPageCard book={book} key={book._id} />

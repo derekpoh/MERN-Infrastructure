@@ -10,8 +10,8 @@ const Carousel = ({books}) => {
   let naturalSlideWidth = 80;
   if (window.innerWidth <= 1100) {
       visibleSlides = 3;
-      naturalSlideHeight=115;
-      naturalSlideWidth=60;
+      naturalSlideHeight=130;
+      naturalSlideWidth=55;
 
   } else if (window.innerWidth <= 1500) {
     visibleSlides = 4;
@@ -33,7 +33,7 @@ const Carousel = ({books}) => {
 
     return(  
       <>
-      {books.length === 0 ? <h4>No books at the moment</h4> : ""}
+      {books.length === 0 ? <div className='h4-carousel'><strong>No books at the moment<p/></strong></div> : ""}
 
         <CarouselProvider 
         naturalSlideWidth={naturalSlideWidth}
