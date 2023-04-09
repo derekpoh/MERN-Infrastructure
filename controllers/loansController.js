@@ -34,7 +34,7 @@ const setReminder = async (req,res) => {
         
     const response = {
             body: {
-                name: "NLB User",
+                name: `${user.name}`,
                 intro: `This is a reminder message that you have requested on ${dayjs(reminder).utc().local().format('DD/MM/YYYY')} for the following book:`,
                 table: {
                     data: [
@@ -62,8 +62,6 @@ const setReminder = async (req,res) => {
         transporter.sendMail(message);
         console.log("email sent!")
     });
-    console.log( "SCHEDULEJOB", schedule.scheduledJobs)
-        
     res.status(200).send(req.body);
     };
 
@@ -155,13 +153,14 @@ await Promise.all(flattenedTransactionHistory.map( async(transaction) => {
 }      
 
 
-cron.schedule('0 * * * *', async () => {
+cron.schedule('* * * * *', async () => {
   try {
     const books = await Book.find({ loanStatus: 'Unavailable' }).exec();
     const today = new Date();
     const overdueBooks = books.filter((book) => {
       const loanDate = new Date(book.loanHistory[book.loanHistory.length - 1].loanDate);
-      return loanDate < today;
+      const dueDate = dayjs(loanDate).add(21,"day").utc().local()
+      return dueDate < today;
     });
     overdueBooks.forEach(async (book) => {
       book.loanStatus = 'Available';
