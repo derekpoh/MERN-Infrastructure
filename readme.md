@@ -17,6 +17,7 @@ This project represents our take on the NLB Mobile App. The application was deve
 Developed in 2016 by National Library Board Singapore, NLB Mobile was recently revamped in 2021 to improve user experience. Marketed as a personal library, the app provides a convenient platform to access library content anytime, anywhere. The app currently provides many unique services, which includes accessing eBooks and audiobooks online, borrowing physical items using your mobile device and many more. By providing such services, NLB hopes to nurture Readers for Life, Learning Communities and a Knowledgeable Nation. 
 
 Incorporating many features into an application helps to increase its functionality and purpose. On the flipside, it can be detrimental to the user experience if the application does not provide a seamless and consistent transition between its features. Lack of visual hierarchy, misleading labels and information inconsistency were some of the pertaining issues that we identified during our user experience. By emulating several key features of NLB Mobile, we restructured and added our own features in an attempt to ameliorate our user journey; hoping to make book borrowing a more pleasant experience for everyone.
+
 ![guesthomepage](https://i.ibb.co/cth9Jxk/guesthomepage.jpg)
 
 ## Contribution
