@@ -40,13 +40,13 @@
 .image-caption {
     position: absolute;
     border-radius: 4px;
-    font-size: 7px;
-    color: #00000077;
+    font-size: 8px;
+    color: #ffffff;
     text-align: center;
-    top: 96%;
-    left: 72.5%;
+    top: 550px;
+    left: 1120px;
     font-family: poppins;
-    padding: 3px;
+    padding: 0px;
 }
 
 .image-caption2 {
@@ -107,7 +107,7 @@
         height: auto;
     }
 
-    .each-slide p {
+    .image-caption, .each-slide p {
         display: none;
     }
 }

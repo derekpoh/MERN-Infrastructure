@@ -4,11 +4,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
-import { styled } from '@mui/system';
 import { Stack, Snackbar, Alert, Button } from '@mui/material';
 import './BookDetails.css';
 import BorrowConfirmation from "../../components/BorrowConfirmation/BorrowConfirmation";
 import ReturnConfirmation from "../../components/ReturnConfirmation/ReturnConfirmation";
+import RecommendedCarousel from "../Recommended/RecommendedCarousel";
+import FeaturedCarousel from "../Featured/FeaturedCarousel";
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { useMediaQuery } from '@mui/material';
 
 
 const blue = {
@@ -58,6 +61,15 @@ const CustomButton = styled(ButtonUnstyled)(
   `,
 );
 
+const theme = createTheme(
+  {
+  breakpoints: {
+    values: {
+      sm: 600,
+    },
+  },
+});
+
 const BookDetails = ({user, setUser}) => {
 
   const { id } = useParams();
@@ -67,6 +79,8 @@ const BookDetails = ({user, setUser}) => {
   const [isSnackbarOpen, setIsSnackBarOpen] = useState(false);
   const [isFavouriteAdded, setIsFavouriteAdded] = useState(false);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
 
   useEffect(() => {
       const fetchBook = async () => {
@@ -207,7 +221,7 @@ const handleFavouriteClick = async (event) => {
 
     return (
     <>
-    
+    <ThemeProvider theme={theme}>
         <img className="book-image" src={book.image} alt="Book cover image" />
         
               { !user? (
@@ -240,8 +254,17 @@ const handleFavouriteClick = async (event) => {
               </IconButton>
               )}
 
+    {!isMobile && !user ? (
+      <div className="aboutTitle" style={{ marginTop: '100px' }}>{book.title}</div>
+        ) : isMobile && !user ? (
+      <div className="aboutTitle" style={{ marginTop: '0px' }}>{book.title}</div>
+        ) : !isMobile && user ? (
+      <div className="aboutTitle" style={{ marginTop: '45px' }}>{book.title}</div>
+        ) : (
+      <div className="aboutTitle" style={{ marginTop: '0px' }}>{book.title}</div>
+        )}
+
         
-        <div className="aboutTitle">{book.title}</div>
         <div className="authorName">{book?.author?.name}</div>
         <h3 className="e-copies">E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3> 
             
@@ -266,8 +289,6 @@ const handleFavouriteClick = async (event) => {
 
       
       <div className="borrow">   
-      {/* <h3 className="e-copies">E-Copies Available: {book?.books?.filter(b=>b.loanStatus==="Available").length}/{book?.books?.length}</h3>  */}
-
         { !user ? (
           <></>
         ) : (
@@ -289,9 +310,14 @@ const handleFavouriteClick = async (event) => {
           </Stack>     
         )}
      </div>
-
-   
-
+    
+    <div style={{ marginBottom: '10px' }}>
+      { !user ? (
+        <FeaturedCarousel/>
+      ) : (
+        <RecommendedCarousel user={user}/>
+      )}
+    </div>
     <p/><p/>
     <Snackbar
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -315,8 +341,9 @@ const handleFavouriteClick = async (event) => {
           Set a reminder?
         </Alert>
     </Snackbar>
-    
+    </ThemeProvider>
     </>
+    
     )
 }
 
