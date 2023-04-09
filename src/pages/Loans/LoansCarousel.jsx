@@ -15,9 +15,9 @@ const LoansCarousel = ({user}) => {
     return(
     <>
     <div className="title">
-    <h2 style={{ marginTop: '70px' }}>Loans</h2>
+    <h2 style={{ marginTop: '30px' }}>Loans</h2>
     {books.length !== 0 ? (
-        <h4 style={{ marginTop: '70px' }}><Link to={"/users/account/loans"}
+        <h4 style={{ marginTop: '30px' }}><Link to={"/users/account/loans"}
         style={{textDecoration: "underline", color:"#0091ff"} }   
         >View All</Link></h4>
     ) : (

@@ -15,8 +15,8 @@ const FeaturedCarousel = () => {
     return(
         <>
     <div className="title">
-    <h2 style={{ marginTop: '50px' }}>Featured</h2>
-    <h4 style={{ marginTop: '50px' }}><Link to="/books/featured" 
+    <h2>Featured</h2>
+    <h4><Link to="/books/featured" 
     style={{textDecoration: "underline", color:"#0091ff"} }   
     >View All</Link></h4>
     </div>
