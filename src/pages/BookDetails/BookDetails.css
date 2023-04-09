@@ -9,8 +9,8 @@
 
 .aboutTitle {
     position: relative;
-    margin-top: 40px;
-    left: 510px;
+    margin-top: 80px;
+    left: 530px;
     text-transform: uppercase;
 
     letter-spacing: 0.1em;
@@ -25,7 +25,7 @@
 .authorName {
     position: relative;
     margin-top: 20px;
-    margin-left: 510px;
+    margin-left: 530px;
     text-align: justify;
     letter-spacing: 0.05em;
     color: #737373;
@@ -44,7 +44,7 @@
 
 .favourite-button {
     position: relative;
-    top: 95px;
+    top: 100px;
     left:1170px;
 }
 
@@ -80,7 +80,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     padding: 20px 0px 20px 0px;
-    margin-left: 510px;
+    margin-left: 530px;
     max-width: 650px;
     color: #595959;
     line-height: 30px;
@@ -88,7 +88,7 @@
 
 .hr-line {
     width: 700px;
-    margin-left: 510px;
+    margin-left: 530px;
 }
 
 
